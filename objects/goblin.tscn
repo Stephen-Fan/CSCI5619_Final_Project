@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://daggne5i1sjjs"]
+
+[ext_resource type="PackedScene" uid="uid://deaxaeu17kisl" path="res://third party assets/Goblin.glb" id="1_nam1f"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rvq4n"]
+
+[node name="Goblin" type="RigidBody3D"]
+
+[node name="Goblin" parent="." instance=ExtResource("1_nam1f")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0747215, 0)
+shape = SubResource("SphereShape3D_rvq4n")

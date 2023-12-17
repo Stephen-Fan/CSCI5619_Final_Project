@@ -1,0 +1,993 @@
+[gd_scene load_steps=90 format=3 uid="uid://d46wrkgdeynk"]
+
+[ext_resource type="Script" path="res://scripts/initialize.gd" id="1_7lme0"]
+[ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_ammvp"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="3_5nigw"]
+[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_w5hhb"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="4_esj0b"]
+[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="5_iah0x"]
+[ext_resource type="Script" path="res://scripts/laser_pointer.gd" id="5_v3i65"]
+[ext_resource type="Script" path="res://scripts/spatial_menu.gd" id="7_4vcka"]
+[ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="7_gss68"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="7_hmvxe"]
+[ext_resource type="PackedScene" uid="uid://coo1n135bsw1w" path="res://objects/pickable_sword.tscn" id="8_wujhb"]
+[ext_resource type="Texture2D" uid="uid://dvr7ubq07rddr" path="res://textures/concrete_rock_path_diff_4k.jpg" id="9_2fdvc"]
+[ext_resource type="PackedScene" uid="uid://okm86aaivf3u" path="res://objects/tables.tscn" id="10_hg6wr"]
+[ext_resource type="PackedScene" uid="uid://oebi4wt7sbou" path="res://objects/weapon_board.tscn" id="11_jnh04"]
+[ext_resource type="AudioStream" uid="uid://djdq15pram1xw" path="res://sound/mixkit-sword-slash-swoosh-1476.mp3" id="12_vpclk"]
+[ext_resource type="AudioStream" uid="uid://voqkj7jo1cvb" path="res://sound/mixkit-sword-cutting-flesh-2788.wav" id="13_mahb5"]
+[ext_resource type="Script" path="res://scripts/demon.gd" id="17_85cbw"]
+[ext_resource type="PackedScene" uid="uid://bkih6001bnvdy" path="res://third party assets/Demon.glb" id="17_pvsmb"]
+[ext_resource type="Material" path="res://textures/ground_texture.tres" id="19_7eg6e"]
+[ext_resource type="Script" path="res://scripts/demon_health_bar.gd" id="19_d38gf"]
+[ext_resource type="Script" path="res://scripts/back_to_origin.gd" id="20_py4bd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_osj4q"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_noqmy"]
+sky_material = SubResource("ProceduralSkyMaterial_osj4q")
+
+[sub_resource type="Environment" id="Environment_pi0m0"]
+background_mode = 2
+sky = SubResource("Sky_noqmy")
+tonemap_mode = 2
+fog_density = 0.001
+fog_sky_affect = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_g28u7"]
+viewport_path = NodePath("XROrigin3D/XRCamera3D/PlayerHealthBar/HealthBar/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7rpm"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+albedo_texture = SubResource("ViewportTexture_g28u7")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_e0h2a"]
+size = Vector2(0.8, 0.03)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ie07v"]
+size = Vector3(1.5, 0.5, 0.1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_mobiw"]
+viewport_path = NodePath("XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vxw7s"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_mobiw")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hs4ia"]
+size = Vector2(1.5, 0.5)
+
+[sub_resource type="Theme" id="Theme_kp5xy"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_2rkh0"]
+default_font_size = 100
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdopr"]
+albedo_color = Color(0.945098, 0.741176, 0.572549, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2iw24"]
+shading_mode = 0
+albedo_color = Color(0, 0.486275, 0.839216, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hmrib"]
+material = SubResource("StandardMaterial3D_2iw24")
+size = Vector3(0.004, 0.004, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pcnyl"]
+albedo_color = Color(0.945098, 0.741176, 0.572549, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y2g12"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8i5ow"]
+size = Vector3(50, 50, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ym5vi"]
+shading_mode = 2
+albedo_texture = ExtResource("9_2fdvc")
+uv1_scale = Vector3(100, 100, 1)
+texture_filter = 5
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trsr2"]
+size = Vector3(50, 50, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nd2rd"]
+size = Vector3(4, 0.1, 2)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_haawq"]
+viewport_path = NodePath("SpatialMenu/PlaneMesh/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6hhfn"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_haawq")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_n01wy"]
+size = Vector2(4, 2)
+
+[sub_resource type="Theme" id="Theme_7xdca"]
+default_font_size = 48
+
+[sub_resource type="Theme" id="Theme_lonmb"]
+default_font_size = 45
+
+[sub_resource type="Theme" id="Theme_1kx17"]
+default_font_size = 45
+
+[sub_resource type="Theme" id="Theme_bymux"]
+default_font_size = 45
+
+[sub_resource type="Theme" id="Theme_ugcfg"]
+default_font_size = 48
+
+[sub_resource type="Theme" id="Theme_2o20u"]
+default_font_size = 48
+
+[sub_resource type="Theme" id="Theme_dlsjs"]
+default_font_size = 48
+
+[sub_resource type="Theme" id="Theme_qe3xd"]
+default_font_size = 48
+
+[sub_resource type="Theme" id="Theme_rdh13"]
+default_font_size = 45
+
+[sub_resource type="Theme" id="Theme_3lwla"]
+default_font_size = 45
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ecyms"]
+size = Vector3(2, 0.1, 2)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_qfjml"]
+viewport_path = NodePath("CountDown/Plane/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_melvf"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_qfjml")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hrhg5"]
+
+[sub_resource type="Theme" id="Theme_f0366"]
+default_font_size = 200
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_22dl8"]
+viewport_path = NodePath("CountDown2/Plane/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sr7pt"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_22dl8")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1wlf2"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_s75hb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tjnb7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jfo1m"]
+albedo_color = Color(1, 0.419608, 0.0588235, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_38xac"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_nubry"]
+viewport_path = NodePath("OuterLand1/Demon/MeshInstance3D/HealthBar/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bhq42"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+albedo_texture = SubResource("ViewportTexture_nubry")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r5wfk"]
+size = Vector2(2, 0.2)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h2tjm"]
+size = Vector2(100, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yti7y"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sa6jm"]
+albedo_color = Color(0.27451, 0.0588235, 0.917647, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_nmwya"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_p47un"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_1lepo"]
+
+[sub_resource type="Gradient" id="Gradient_7aog4"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5mtog"]
+gradient = SubResource("Gradient_7aog4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_usvru"]
+albedo_texture = SubResource("GradientTexture2D_5mtog")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yl38u"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_crkyu"]
+size = Vector3(2, 0.1, 2)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gyeq2"]
+viewport_path = NodePath("OuterLand1/CountDown_1/Plane_1/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bwtcj"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_gyeq2")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_swbke"]
+
+[sub_resource type="Theme" id="Theme_1lpno"]
+default_font_size = 200
+
+[sub_resource type="BoxMesh" id="BoxMesh_vq5pt"]
+size = Vector3(100, 100, 100)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ihd00"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_k7qbd"]
+viewport_path = NodePath("OuterLand2/CountDown_2_1/Plane_2/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f2x2n"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_k7qbd")
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_7lme0")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pi0m0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.962805, -0.182016, -0.199691, -0.0553734, -0.590451, 0.805172, -0.264462, 0.786281, 0.55841, 0, 0, 0)
+shadow_enabled = true
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("2_ammvp")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+far = 500.0
+
+[node name="PlayerHealthBar" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.2, -1)
+material_override = SubResource("StandardMaterial3D_m7rpm")
+mesh = SubResource("PlaneMesh_e0h2a")
+
+[node name="HealthBar" type="SubViewportContainer" parent="XROrigin3D/XRCamera3D/PlayerHealthBar"]
+offset_right = 200.0
+offset_bottom = 27.0
+
+[node name="SubViewport" type="SubViewport" parent="XROrigin3D/XRCamera3D/PlayerHealthBar/HealthBar"]
+size = Vector2i(200, 27)
+
+[node name="Control" type="Control" parent="XROrigin3D/XRCamera3D/PlayerHealthBar/HealthBar/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 27.0
+
+[node name="ProgressBar" type="ProgressBar" parent="XROrigin3D/XRCamera3D/PlayerHealthBar/HealthBar/SubViewport/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 27.0
+value = 100.0
+
+[node name="Death" type="Area3D" parent="XROrigin3D/XRCamera3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.77545)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/XRCamera3D/Death"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
+shape = SubResource("BoxShape3D_ie07v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/Death"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_vxw7s")
+mesh = SubResource("PlaneMesh_hs4ia")
+
+[node name="SubViewport" type="SubViewport" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D"]
+size = Vector2i(400, 150)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport"]
+
+[node name="Lose" type="Button" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -25.0
+offset_right = 100.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_kp5xy")
+text = "YOU LOSE
+"
+
+[node name="BackInfo" type="Button" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -203.5
+offset_top = -15.5
+offset_right = 203.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "You will be sent back to the main base in 3 seconds.
+"
+
+[node name="BackCD" type="Button" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -100.0
+offset_right = 100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_2rkh0")
+text = "3"
+
+[node name="LeftController" type="XRController3D" parent="XROrigin3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 1.4, -0.4)
+tracker = &"left_hand"
+pose = &"aim"
+
+[node name="LeftHand" parent="XROrigin3D/LeftController" instance=ExtResource("3_w5hhb")]
+hand_material_override = SubResource("StandardMaterial3D_xdopr")
+
+[node name="FunctionPickup" parent="XROrigin3D/LeftController" instance=ExtResource("3_5nigw")]
+
+[node name="MovementDirect" parent="XROrigin3D/LeftController" instance=ExtResource("4_esj0b")]
+max_speed = 5.0
+
+[node name="RightController" type="XRController3D" parent="XROrigin3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.4, -0.4)
+tracker = &"right_hand"
+pose = &"aim"
+
+[node name="LaserPointer" type="MeshInstance3D" parent="XROrigin3D/RightController"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+mesh = SubResource("BoxMesh_hmrib")
+script = ExtResource("5_v3i65")
+
+[node name="RightHand" parent="XROrigin3D/RightController" instance=ExtResource("5_iah0x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+hand_material_override = SubResource("StandardMaterial3D_pcnyl")
+
+[node name="FunctionPickup" parent="XROrigin3D/RightController" instance=ExtResource("3_5nigw")]
+ranged_angle = 10.0
+
+[node name="MovementTurn" parent="XROrigin3D/RightController" instance=ExtResource("7_gss68")]
+
+[node name="PlayerBody" parent="XROrigin3D" instance=ExtResource("7_hmvxe")]
+collision_mask = 9
+push_rigid_bodies = false
+
+[node name="Area3D" type="Area3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 524289
+collision_mask = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/Area3D"]
+shape = SubResource("CapsuleShape3D_y2g12")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
+mesh = SubResource("BoxMesh_8i5ow")
+surface_material_override/0 = SubResource("StandardMaterial3D_ym5vi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -25, 0)
+shape = SubResource("BoxShape3D_trsr2")
+
+[node name="SpatialMenu" type="Area3D" parent="." groups=["spatial_menus"]]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.529, -5)
+script = ExtResource("7_4vcka")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpatialMenu"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_nd2rd")
+
+[node name="PlaneMesh" type="MeshInstance3D" parent="SpatialMenu"]
+material_override = SubResource("StandardMaterial3D_6hhfn")
+mesh = SubResource("PlaneMesh_n01wy")
+
+[node name="SubViewport" type="SubViewport" parent="SpatialMenu/PlaneMesh"]
+transparent_bg = true
+size = Vector2i(2048, 1024)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="SpatialMenu/PlaneMesh/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1024.0
+offset_top = -512.0
+offset_right = 1024.0
+offset_bottom = 512.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="IntroTitle" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -350.0
+offset_top = 50.0
+offset_right = 250.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme = SubResource("Theme_7xdca")
+text = "Are you ready?"
+
+[node name="Yes" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 350.0
+offset_top = 300.0
+offset_right = 750.0
+offset_bottom = 450.0
+theme = SubResource("Theme_lonmb")
+text = "YES!!!"
+
+[node name="No" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 1150.0
+offset_top = 300.0
+offset_right = 1650.0
+offset_bottom = 450.0
+theme = SubResource("Theme_1kx17")
+text = "NO!!! I WANNA GO!!!"
+
+[node name="NOno" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -12.0
+offset_right = 250.0
+offset_bottom = 88.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_bymux")
+text = "I CAN'T LET YOU GO"
+
+[node name="Title" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -350.0
+offset_top = 50.0
+offset_right = 350.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme = SubResource("Theme_ugcfg")
+text = "Please select your weapon!"
+
+[node name="WeaponButton1" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -262.0
+offset_right = 250.0
+offset_bottom = -162.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_2o20u")
+text = "Sword"
+
+[node name="WeaponButton2" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -62.0
+offset_right = 250.0
+offset_bottom = 38.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_dlsjs")
+text = "Gun"
+
+[node name="WeaponButton3" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = 138.0
+offset_right = 250.0
+offset_bottom = 238.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_qe3xd")
+text = "Bow"
+
+[node name="Back" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -600.0
+offset_top = -150.0
+offset_right = -400.0
+offset_bottom = -50.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = SubResource("Theme_rdh13")
+text = "BACK"
+
+[node name="Next" type="Button" parent="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -150.0
+offset_right = -100.0
+offset_bottom = -50.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = SubResource("Theme_3lwla")
+text = "NEXT"
+
+[node name="CountDown" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -15, 2.651, -25.485)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CountDown"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_ecyms")
+
+[node name="Plane" type="MeshInstance3D" parent="CountDown"]
+material_override = SubResource("StandardMaterial3D_melvf")
+mesh = SubResource("PlaneMesh_hrhg5")
+
+[node name="SubViewport" type="SubViewport" parent="CountDown/Plane"]
+transparent_bg = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CountDown/Plane/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="CountDown/Plane/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 768.0
+offset_bottom = 768.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="CD" type="Button" parent="CountDown/Plane/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_f0366")
+text = "3"
+
+[node name="CountDown2" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.651, -25.485)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CountDown2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_ecyms")
+
+[node name="Plane" type="MeshInstance3D" parent="CountDown2"]
+material_override = SubResource("StandardMaterial3D_sr7pt")
+mesh = SubResource("PlaneMesh_hrhg5")
+
+[node name="SubViewport" type="SubViewport" parent="CountDown2/Plane"]
+transparent_bg = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CountDown2/Plane/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="CountDown2/Plane/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 768.0
+offset_bottom = 768.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="CD" type="Button" parent="CountDown2/Plane/SubViewport/CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_f0366")
+text = "3"
+
+[node name="SwordHitEnemy" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.18707, 1.67559, -3.5056)
+stream = ExtResource("12_vpclk")
+
+[node name="SwordHitDeadEnemy" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.18707, 1.67559, -3.5056)
+stream = ExtResource("13_mahb5")
+
+[node name="Tables" parent="." instance=ExtResource("10_hg6wr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.45688, 0, -3.83128)
+
+[node name="WeaponBoard" parent="Tables" instance=ExtResource("11_jnh04")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0240774, 0.952513, 0.28615)
+
+[node name="PickableSword" parent="Tables" instance=ExtResource("8_wujhb")]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.642917, 1.60238, 0.298849)
+collision_layer = 65536
+
+[node name="Portal1" type="StaticBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 2, -18)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Portal1"]
+transform = Transform3D(5, 0, 0, 0, -2.18557e-07, -5, 0, 5, -2.18557e-07, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_1wlf2")
+mesh = SubResource("TorusMesh_s75hb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Portal1"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 1.543, -2)
+shape = SubResource("SphereShape3D_tjnb7")
+
+[node name="Portal2" type="StaticBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -18)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Portal2"]
+transform = Transform3D(5, 0, 0, 0, -2.18557e-07, -5, 0, 5, -2.18557e-07, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_jfo1m")
+mesh = SubResource("TorusMesh_s75hb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Portal2"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 1.543, -2)
+shape = SubResource("SphereShape3D_tjnb7")
+
+[node name="OuterLand1" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -200, 200, -200)
+visible = false
+
+[node name="Demon" type="StaticBody3D" parent="OuterLand1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.53061, 0, 21.9458)
+collision_layer = 8
+collision_mask = 589825
+script = ExtResource("17_85cbw")
+
+[node name="Demon" parent="OuterLand1/Demon" instance=ExtResource("17_pvsmb")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand1/Demon"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1, 0)
+shape = SubResource("SphereShape3D_38xac")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand1/Demon"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 2.23789, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_bhq42")
+mesh = SubResource("PlaneMesh_r5wfk")
+
+[node name="HealthBar" type="SubViewportContainer" parent="OuterLand1/Demon/MeshInstance3D"]
+offset_right = 200.0
+offset_bottom = 27.0
+
+[node name="SubViewport" type="SubViewport" parent="OuterLand1/Demon/MeshInstance3D/HealthBar"]
+handle_input_locally = false
+size = Vector2i(200, 27)
+render_target_update_mode = 4
+
+[node name="Control" type="Control" parent="OuterLand1/Demon/MeshInstance3D/HealthBar/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 27.0
+
+[node name="DemonHealthBar" type="ProgressBar" parent="OuterLand1/Demon/MeshInstance3D/HealthBar/SubViewport/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 27.0
+value = 100.0
+script = ExtResource("19_d38gf")
+
+[node name="Ground" type="StaticBody3D" parent="OuterLand1"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand1/Ground"]
+mesh = SubResource("PlaneMesh_h2tjm")
+surface_material_override/0 = ExtResource("19_7eg6e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand1/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_yti7y")
+
+[node name="Portal1_1" type="StaticBody3D" parent="OuterLand1"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 45)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand1/Portal1_1"]
+transform = Transform3D(5, 0, 0, 0, -2.18557e-07, -5, 0, 5, -2.18557e-07, 0, 2, 0)
+material_override = SubResource("StandardMaterial3D_sa6jm")
+mesh = SubResource("TorusMesh_nmwya")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand1/Portal1_1"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 3.543, -2)
+shape = SubResource("SphereShape3D_p47un")
+
+[node name="GoBack_1" type="RigidBody3D" parent="OuterLand1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 47.8699)
+visible = false
+script = ExtResource("20_py4bd")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand1/GoBack_1"]
+mesh = SubResource("SphereMesh_1lepo")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_usvru")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand1/GoBack_1"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_yl38u")
+
+[node name="CountDown_1" type="Area3D" parent="OuterLand1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3, 51.8496)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand1/CountDown_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_crkyu")
+
+[node name="Plane_1" type="MeshInstance3D" parent="OuterLand1/CountDown_1"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_bwtcj")
+mesh = SubResource("PlaneMesh_swbke")
+
+[node name="SubViewport" type="SubViewport" parent="OuterLand1/CountDown_1/Plane_1"]
+transparent_bg = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="OuterLand1/CountDown_1/Plane_1/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="OuterLand1/CountDown_1/Plane_1/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 768.0
+offset_bottom = 768.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="CD_1" type="Button" parent="OuterLand1/CountDown_1/Plane_1/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_1lpno")
+text = "3"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.5, 0)
+mesh = SubResource("BoxMesh_vq5pt")
+surface_material_override/0 = SubResource("StandardMaterial3D_ihd00")
+
+[node name="OuterLand2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, -200)
+visible = false
+
+[node name="Ground" type="StaticBody3D" parent="OuterLand2"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand2/Ground"]
+mesh = SubResource("PlaneMesh_h2tjm")
+surface_material_override/0 = ExtResource("19_7eg6e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand2/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_yti7y")
+
+[node name="Portal2_1" type="StaticBody3D" parent="OuterLand2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 45)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand2/Portal2_1"]
+transform = Transform3D(5, 0, 0, 0, -2.18557e-07, -5, 0, 5, -2.18557e-07, 0, 2, 0)
+material_override = SubResource("StandardMaterial3D_sa6jm")
+mesh = SubResource("TorusMesh_nmwya")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand2/Portal2_1"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 3.543, -2)
+shape = SubResource("SphereShape3D_p47un")
+
+[node name="GoBack_2" type="RigidBody3D" parent="OuterLand2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 47.8699)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand2/GoBack_2"]
+mesh = SubResource("SphereMesh_1lepo")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_usvru")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand2/GoBack_2"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_yl38u")
+
+[node name="CountDown_2_1" type="Area3D" parent="OuterLand2"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3, 51.8496)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand2/CountDown_2_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_crkyu")
+
+[node name="Plane_2" type="MeshInstance3D" parent="OuterLand2/CountDown_2_1"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_f2x2n")
+mesh = SubResource("PlaneMesh_swbke")
+
+[node name="SubViewport" type="SubViewport" parent="OuterLand2/CountDown_2_1/Plane_2"]
+transparent_bg = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="OuterLand2/CountDown_2_1/Plane_2/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="OuterLand2/CountDown_2_1/Plane_2/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 768.0
+offset_bottom = 768.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="CD_2" type="Button" parent="OuterLand2/CountDown_2_1/Plane_2/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_1lpno")
+text = "3"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.5, 0)
+mesh = SubResource("BoxMesh_vq5pt")
+surface_material_override/0 = SubResource("StandardMaterial3D_ihd00")
+
+[connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_process_input"]
+[connection signal="button_pressed" from="XROrigin3D/RightController" to="XROrigin3D/RightController/LaserPointer" method="_on_controller_button_pressed" binds= [true]]
+[connection signal="button_released" from="XROrigin3D/RightController" to="XROrigin3D/RightController/LaserPointer" method="_on_controller_button_pressed" binds= [false]]
+[connection signal="input_vector2_changed" from="XROrigin3D/RightController" to="XROrigin3D" method="_process_input"]
+[connection signal="body_entered" from="XROrigin3D/Area3D" to="XROrigin3D" method="_on_area_3d_body_entered"]
+[connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/Yes" to="SpatialMenu" method="_on_yes_pressed"]
+[connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/No" to="SpatialMenu" method="_on_no_pressed"]
+[connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/WeaponButton1" to="SpatialMenu" method="_on_weapon_button_1_pressed"]
+[connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/WeaponButton2" to="SpatialMenu" method="_on_weapon_button_2_pressed"]
+[connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/WeaponButton3" to="SpatialMenu" method="_on_weapon_button_3_pressed"]
+[connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/Back" to="SpatialMenu" method="_on_back_pressed"]
+[connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/Next" to="SpatialMenu" method="_on_next_pressed"]
+[connection signal="body_entered" from="Tables/PickableSword/Area3D" to="OuterLand1/Demon/MeshInstance3D/HealthBar/SubViewport/Control/DemonHealthBar" method="_on_area_3d_body_entered"]
+
+[editable path="Tables/PickableSword"]
+[editable path="Tables/PickableSword/sword"]

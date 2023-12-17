@@ -1,0 +1,72 @@
+[gd_scene load_steps=12 format=3 uid="uid://iu8osehu2ttf"]
+
+[ext_resource type="PackedScene" uid="uid://ce7vysyvondf8" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="1_a2wi7"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="2_der2p"]
+[ext_resource type="PackedScene" uid="uid://c16qw6umlian7" path="res://third party assets/sword.glb" id="3_xxjv1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q773q"]
+resource_local_to_scene = true
+radius = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lbj4d"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fi5ko"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m07ub"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_if3en"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6iu8w"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uhv28"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nvcha"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 1)
+
+[node name="WeaponSnapZone" instance=ExtResource("1_a2wi7")]
+snap_mode = 1
+snap_require = "Weapon"
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("SphereShape3D_q773q")
+
+[node name="HighlightRing" parent="." index="2" instance=ExtResource("2_der2p")]
+
+[node name="sword" parent="." index="3" instance=ExtResource("3_xxjv1")]
+transform = Transform3D(0.25, 0, 0, 0, -0.25, 2.18557e-08, 0, -2.18557e-08, -0.25, 0.1, 0.394, -0.02)
+
+[node name="Cube_016_Cube_021_Material_011" parent="sword/Cube_016_Cube_021" index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_lbj4d")
+
+[node name="Cube_016_Cube_021_Material_012" parent="sword/Cube_016_Cube_021" index="1"]
+surface_material_override/0 = SubResource("StandardMaterial3D_fi5ko")
+
+[node name="Cube_016_Cube_021_Material_000" parent="sword/Cube_016_Cube_021" index="2"]
+surface_material_override/0 = SubResource("StandardMaterial3D_m07ub")
+
+[node name="Cube_016_Cube_021_Material_002" parent="sword/Cube_016_Cube_021" index="3"]
+surface_material_override/0 = SubResource("StandardMaterial3D_if3en")
+
+[node name="Cube_016_Cube_021_Material_007" parent="sword/Cube_016_Cube_021" index="4"]
+surface_material_override/0 = SubResource("StandardMaterial3D_6iu8w")
+
+[node name="Cube_016_Cube_021_Material_008" parent="sword/Cube_016_Cube_021" index="5"]
+surface_material_override/0 = SubResource("StandardMaterial3D_uhv28")
+
+[node name="Cube_016_Cube_021_Material_034" parent="sword/Cube_016_Cube_021" index="6"]
+surface_material_override/0 = SubResource("StandardMaterial3D_nvcha")
+
+[editable path="sword"]
