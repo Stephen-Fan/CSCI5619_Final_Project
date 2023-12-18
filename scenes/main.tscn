@@ -1,4 +1,4 @@
-[gd_scene load_steps=107 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=108 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_7lme0"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_ammvp"]
@@ -56,14 +56,14 @@ size = Vector2(0.8, 0.03)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ie07v"]
 size = Vector3(1.5, 0.5, 0.1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_a327f"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_7lj75"]
 viewport_path = NodePath("XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x88a4"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_a327f")
+albedo_texture = SubResource("ViewportTexture_7lj75")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hs4ia"]
 size = Vector2(1.5, 0.5)
@@ -71,25 +71,25 @@ size = Vector2(1.5, 0.5)
 [sub_resource type="Theme" id="Theme_kp5xy"]
 default_font_size = 20
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdopr"]
-albedo_color = Color(0.945098, 0.741176, 0.572549, 1)
-
 [sub_resource type="BoxShape3D" id="BoxShape3D_pfn31"]
 size = Vector3(1.4, 0.1, 0.7)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_gykw1"]
-viewport_path = NodePath("XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport")
+[sub_resource type="ViewportTexture" id="ViewportTexture_hwq2i"]
+viewport_path = NodePath("XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_etaum"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_gykw1")
+albedo_texture = SubResource("ViewportTexture_hwq2i")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_dks25"]
 size = Vector2(1.4, 0.7)
 
 [sub_resource type="Theme" id="Theme_naovj"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_kf806"]
 default_font_size = 30
 
 [sub_resource type="Theme" id="Theme_qjfv5"]
@@ -106,6 +106,9 @@ default_font_size = 30
 
 [sub_resource type="Theme" id="Theme_iml5p"]
 default_font_size = 25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdopr"]
+albedo_color = Color(0.945098, 0.741176, 0.572549, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2iw24"]
 shading_mode = 0
@@ -135,14 +138,14 @@ size = Vector3(50, 50, 50)
 [sub_resource type="BoxShape3D" id="BoxShape3D_nd2rd"]
 size = Vector3(4, 0.1, 2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_3mf41"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_f7us8"]
 viewport_path = NodePath("SpatialMenu/PlaneMesh/SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gxwk"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kx8rl"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_3mf41")
+albedo_texture = SubResource("ViewportTexture_f7us8")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_n01wy"]
 size = Vector2(4, 2)
@@ -348,8 +351,7 @@ value = 100.0
 
 [node name="Death" type="Area3D" parent="XROrigin3D/XRCamera3D"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.77545)
-visible = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.775)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/XRCamera3D/Death"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05)
@@ -361,9 +363,15 @@ material_override = SubResource("StandardMaterial3D_x88a4")
 mesh = SubResource("PlaneMesh_hs4ia")
 
 [node name="SubViewport" type="SubViewport" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D"]
+transparent_bg = true
 size = Vector2i(400, 150)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_right = 400.0
+offset_bottom = 150.0
+color = Color(0.180392, 0.572549, 0.572549, 0)
 
 [node name="Lose" type="Button" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
 unique_name_in_owner = true
@@ -400,39 +408,44 @@ grow_vertical = 2
 text = "You will be sent back to the main base in 3 seconds.
 "
 
-[node name="LeftController" type="XRController3D" parent="XROrigin3D"]
+[node name="AreaClear" type="Button" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 1.4, -0.4)
-tracker = &"left_hand"
-pose = &"aim"
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -25.0
+offset_right = 100.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_kp5xy")
+text = "AREA CLEAR"
 
-[node name="LeftHand" parent="XROrigin3D/LeftController" instance=ExtResource("3_w5hhb")]
-hand_material_override = SubResource("StandardMaterial3D_xdopr")
-
-[node name="FunctionPickup" parent="XROrigin3D/LeftController" instance=ExtResource("3_5nigw")]
-
-[node name="MovementDirect" parent="XROrigin3D/LeftController" instance=ExtResource("4_esj0b")]
-max_speed = 5.0
-
-[node name="MissionBoard" type="Area3D" parent="XROrigin3D/LeftController"]
+[node name="MissionBoard" type="Area3D" parent="XROrigin3D/XRCamera3D" groups=["spatial_menus"]]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.5, -2.1)
+visible = false
 script = ExtResource("6_p2hps")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftController/MissionBoard"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -1.05, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/XRCamera3D/MissionBoard"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_pfn31")
 
-[node name="BoardMesh" type="MeshInstance3D" parent="XROrigin3D/LeftController/MissionBoard"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -1, 0)
+[node name="BoardMesh" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/MissionBoard"]
 material_override = SubResource("StandardMaterial3D_etaum")
 mesh = SubResource("PlaneMesh_dks25")
 
-[node name="SubViewport" type="SubViewport" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh"]
+[node name="SubViewport" type="SubViewport" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh"]
 transparent_bg = true
 size = Vector2i(512, 256)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport"]
+[node name="CanvasLayer" type="CanvasLayer" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport"]
 
-[node name="ColorRect" type="ColorRect" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+[node name="ColorRect" type="ColorRect" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -446,7 +459,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.180392, 0.572549, 0.572549, 0.501961)
 
-[node name="MissionTitle" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+[node name="MissionTitle" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -458,7 +471,49 @@ grow_horizontal = 2
 theme = SubResource("Theme_naovj")
 text = "Mission"
 
-[node name="MissionDescription_1" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+[node name="Easy" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -190.0
+offset_top = 100.0
+offset_right = -90.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme = SubResource("Theme_kf806")
+text = "EASY"
+
+[node name="Medium" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -50.0
+offset_top = 100.0
+offset_right = 50.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme = SubResource("Theme_kf806")
+text = "MEDIUM"
+
+[node name="Hard" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 90.0
+offset_top = 100.0
+offset_right = 190.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme = SubResource("Theme_kf806")
+text = "HARD
+"
+
+[node name="MissionDescription_1" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -470,7 +525,37 @@ grow_horizontal = 2
 theme = SubResource("Theme_qjfv5")
 text = "Defeat 5 Demons"
 
-[node name="Done" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+[node name="MissionDescription_2" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 70.0
+offset_right = 200.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme = SubResource("Theme_qjfv5")
+text = "Defeat 5 Goblins"
+
+[node name="MissionDescription_3" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 70.0
+offset_right = 200.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme = SubResource("Theme_qjfv5")
+text = "Defeat 5 Giants"
+
+[node name="Done" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -485,7 +570,9 @@ grow_vertical = 2
 theme = SubResource("Theme_8nnnt")
 text = "0"
 
-[node name="Slash" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+[node name="Slash" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -500,7 +587,9 @@ grow_vertical = 2
 theme = SubResource("Theme_ypomx")
 text = "/"
 
-[node name="Goal" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+[node name="Goal" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -515,7 +604,9 @@ grow_vertical = 2
 theme = SubResource("Theme_pgvej")
 text = "5"
 
-[node name="Submit" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+[node name="Submit" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -529,6 +620,71 @@ grow_horizontal = 0
 grow_vertical = 0
 theme = SubResource("Theme_iml5p")
 text = "SUBMIT"
+
+[node name="MissionClear" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -25.0
+offset_right = 125.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_kf806")
+text = "MISSION CLEAR"
+
+[node name="PortalActivated" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -125.0
+offset_top = -25.0
+offset_right = 125.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_kf806")
+text = "Portal is activated at the gate"
+
+[node name="Continue" type="Button" parent="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -132.0
+offset_top = -66.0
+offset_right = -12.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = SubResource("Theme_iml5p")
+text = "Continue"
+
+[node name="LeftController" type="XRController3D" parent="XROrigin3D"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 1.4, -0.4)
+tracker = &"left_hand"
+pose = &"aim"
+
+[node name="LeftHand" parent="XROrigin3D/LeftController" instance=ExtResource("3_w5hhb")]
+hand_material_override = SubResource("StandardMaterial3D_xdopr")
+
+[node name="FunctionPickup" parent="XROrigin3D/LeftController" instance=ExtResource("3_5nigw")]
+
+[node name="MovementDirect" parent="XROrigin3D/LeftController" instance=ExtResource("4_esj0b")]
+max_speed = 5.0
 
 [node name="RightController" type="XRController3D" parent="XROrigin3D"]
 unique_name_in_owner = true
@@ -586,7 +742,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_nd2rd")
 
 [node name="PlaneMesh" type="MeshInstance3D" parent="SpatialMenu"]
-material_override = SubResource("StandardMaterial3D_8gxwk")
+material_override = SubResource("StandardMaterial3D_kx8rl")
 mesh = SubResource("PlaneMesh_n01wy")
 
 [node name="SubViewport" type="SubViewport" parent="SpatialMenu/PlaneMesh"]
@@ -972,7 +1128,7 @@ transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 3.543, -2)
 shape = SubResource("SphereShape3D_p47un")
 
 [node name="GoBack_1" type="RigidBody3D" parent="OuterLand1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 47.8699)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 47.87)
 visible = false
 script = ExtResource("20_py4bd")
 
@@ -1106,7 +1262,7 @@ transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 3.543, -2)
 shape = SubResource("SphereShape3D_p47un")
 
 [node name="GoBack_2" type="RigidBody3D" parent="OuterLand2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 47.8699)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 47.87)
 visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand2/GoBack_2"]
@@ -1170,6 +1326,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.5, 0)
 mesh = SubResource("BoxMesh_vq5pt")
 surface_material_override/0 = SubResource("StandardMaterial3D_ihd00")
 
+[connection signal="pressed" from="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Easy" to="XROrigin3D/XRCamera3D/MissionBoard" method="_on_easy_pressed"]
+[connection signal="pressed" from="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Medium" to="XROrigin3D/XRCamera3D/MissionBoard" method="_on_medium_pressed"]
+[connection signal="pressed" from="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Hard" to="XROrigin3D/XRCamera3D/MissionBoard" method="_on_hard_pressed"]
+[connection signal="pressed" from="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Submit" to="XROrigin3D/XRCamera3D/MissionBoard" method="_on_submit_pressed"]
+[connection signal="pressed" from="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Continue" to="XROrigin3D/XRCamera3D/MissionBoard" method="_on_continue_pressed"]
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_process_input"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="XROrigin3D/RightController/LaserPointer" method="_on_controller_button_pressed" binds= [true]]
 [connection signal="button_released" from="XROrigin3D/RightController" to="XROrigin3D/RightController/LaserPointer" method="_on_controller_button_pressed" binds= [false]]

@@ -6,7 +6,11 @@ var demon
 var demon_health_bar_mesh
 var sword_hit_enemy
 var player_body
-var go_back_1
+var mission_board_done
+var area_clear
+var done
+var submit
+
 var health = 100
 var progress = 0
 
@@ -15,11 +19,12 @@ func _ready():
 
 	sword_hit_enemy = get_node("/root/Main/SwordHitEnemy")
 	player_body = get_node("/root/Main/XROrigin3D")
-	go_back_1 = get_node("/root/Main/OuterLand1/GoBack_1")
 	demon = get_node("/root/Main/OuterLand1/Demon")
 	demon_health_bar_mesh = get_node("/root/Main/OuterLand1/Demon/MeshInstance3D")
-
-	# health_array = [100, 100]
+	mission_board_done = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Done")
+	area_clear = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/AreaClear")
+	done = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Done")
+	submit = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Submit")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,6 +33,24 @@ func _process(_delta):
 
 func _reset_progress():
 	progress = 0
+
+func _area_clear_prompt():
+	area_clear.visible = true
+	await get_tree().create_timer(3).timeout
+	area_clear.visible = false
+
+func _update_mission_progress_on_board():
+	if progress == 1:
+		done.text = "1"
+	elif progress == 2:
+		done.text = "2"
+	elif progress == 3:
+		done.text = "3"
+	elif progress == 4:
+		done.text = "4"
+	elif progress == 5:
+		done.text = "5"
+		submit.visible = true
 
 
 func _on_area_3d_body_entered(body:Node3D):
@@ -39,9 +62,10 @@ func _on_area_3d_body_entered(body:Node3D):
 			player_body.player_monster_collision = false
 			demon._demon_delete()
 			progress += 1
+			_update_mission_progress_on_board()
 			
 			if progress == 5:
-				go_back_1.visible = true
+				_area_clear_prompt()
 				_reset_progress()
 			else:
 				demon._demon_recreate()

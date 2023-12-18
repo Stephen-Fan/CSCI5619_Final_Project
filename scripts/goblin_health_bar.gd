@@ -8,7 +8,11 @@ var sword_hit_enemy
 var player_body
 var goblin
 var goblin_health_bar_mesh
-var go_back_2
+
+var area_clear
+var done
+var submit
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,7 +20,9 @@ func _ready():
 	player_body = get_node("/root/Main/XROrigin3D")
 	goblin = get_node("/root/Main/OuterLand2/Goblin")
 	goblin_health_bar_mesh = get_node("/root/Main/OuterLand2/Goblin/GoblinHealth")
-	go_back_2 = get_node("/root/Main/OuterLand2/GoBack_2")
+	area_clear = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/AreaClear")
+	done = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Done")
+	submit = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Submit")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -25,6 +31,23 @@ func _process(_delta):
 func _reset_progress():
 	progress = 0
 
+func _area_clear_prompt():
+	area_clear.visible = true
+	await get_tree().create_timer(3).timeout
+	area_clear.visible = false
+
+func _update_mission_progress_on_board():
+	if progress == 1:
+		done.text = "1"
+	elif progress == 2:
+		done.text = "2"
+	elif progress == 3:
+		done.text = "3"
+	elif progress == 4:
+		done.text = "4"
+	elif progress == 5:
+		done.text = "5"
+		submit.visible = true
 
 func _on_area_3d_body_entered(body:Node3D):
 	if body.name == "Goblin":
@@ -35,9 +58,10 @@ func _on_area_3d_body_entered(body:Node3D):
 			player_body.damage_increment = 1.0
 			goblin._goblin_delete()
 			progress += 1
+			_update_mission_progress_on_board()
 			
 			if progress == 5:
-				go_back_2.visible = true
+				_area_clear_prompt()
 				_reset_progress()
 			else:
 				goblin._goblin_recreate()

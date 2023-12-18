@@ -33,6 +33,7 @@ var goblin
 var death_board
 var death_board_lose
 var death_board_back_info
+var done
 # var death_board_count_down
 var health = 100
 var damage_increment = 1.0
@@ -83,8 +84,9 @@ func _ready():
 	death_board = get_node("/root/Main/XROrigin3D/XRCamera3D/Death")
 	death_board_lose = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/Lose")
 	death_board_back_info = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/BackInfo")
-	# death_board_count_down = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/BackCD")
-	# player_camera = get_node("/root/Main/XROrigin3D/XRCamera3D")
+	
+	done = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Done")
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -144,6 +146,7 @@ func _player_death_and_resurrection():
 	# Delete the monster and show the resurrection information
 
 	_delete_monster_when_player_dead()
+	done.text = "0"
 	player_health_bar_mesh.visible = false
 	death_board.visible = true
 	death_board_lose.visible = true
@@ -162,21 +165,11 @@ func _player_death_and_resurrection():
 	death_board_back_info.text = "You will be sent back to the main base in 0 seconds."
 	# _countdown(1)
 	await get_tree().create_timer(1).timeout
-	# death_board_back_info.visible = false
-	# death_board_count_down.visible = true
-	# await get_tree().create_timer(1).timeout
-	# death_board_count_down.text = "2"
-	# await get_tree().create_timer(1).timeout
-	# death_board_count_down.text = "1"
-	# await get_tree().create_timer(1).timeout
-	# death_board_count_down.text = "0"
-	# await get_tree().create_timer(1).timeout
 	
 	# Resurrection
 	monster_code = 0
 	# player_monster_collision = false
 	self.global_position = Vector3(0,0,0)
-	# self.global_position = fountain.global_transform.origin + Vector3(0,-1.2,-3)
 	outer_land_1.visible = false
 	outer_land_2.visible = false
 	player_health_bar_mesh.visible = true
