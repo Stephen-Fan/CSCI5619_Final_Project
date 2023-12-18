@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=107 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_7lme0"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_ammvp"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="4_esj0b"]
 [ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="5_iah0x"]
 [ext_resource type="Script" path="res://scripts/laser_pointer.gd" id="5_v3i65"]
+[ext_resource type="Script" path="res://scripts/mission_board.gd" id="6_p2hps"]
 [ext_resource type="Script" path="res://scripts/spatial_menu.gd" id="7_4vcka"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="7_gss68"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="7_hmvxe"]
@@ -18,9 +19,12 @@
 [ext_resource type="AudioStream" uid="uid://voqkj7jo1cvb" path="res://sound/mixkit-sword-cutting-flesh-2788.wav" id="13_mahb5"]
 [ext_resource type="Script" path="res://scripts/demon.gd" id="17_85cbw"]
 [ext_resource type="PackedScene" uid="uid://bkih6001bnvdy" path="res://third party assets/Demon.glb" id="17_pvsmb"]
-[ext_resource type="Material" path="res://textures/ground_texture.tres" id="19_7eg6e"]
+[ext_resource type="Material" uid="uid://cnsb8igmsrf3a" path="res://textures/ground_texture.tres" id="19_7eg6e"]
 [ext_resource type="Script" path="res://scripts/demon_health_bar.gd" id="19_d38gf"]
 [ext_resource type="Script" path="res://scripts/back_to_origin.gd" id="20_py4bd"]
+[ext_resource type="Script" path="res://scripts/goblin.gd" id="22_p7pdi"]
+[ext_resource type="PackedScene" uid="uid://bvo8k4qan4dr0" path="res://third party assets/Goblin.glb" id="23_rvukb"]
+[ext_resource type="Script" path="res://scripts/goblin_health_bar.gd" id="24_3rrqj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_osj4q"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -36,7 +40,7 @@ tonemap_mode = 2
 fog_density = 0.001
 fog_sky_affect = 0.0
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_g28u7"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_5guj3"]
 viewport_path = NodePath("XROrigin3D/XRCamera3D/PlayerHealthBar/HealthBar/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7rpm"]
@@ -44,7 +48,7 @@ resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
 albedo_color = Color(0, 1, 0, 1)
-albedo_texture = SubResource("ViewportTexture_g28u7")
+albedo_texture = SubResource("ViewportTexture_5guj3")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_e0h2a"]
 size = Vector2(0.8, 0.03)
@@ -52,14 +56,14 @@ size = Vector2(0.8, 0.03)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ie07v"]
 size = Vector3(1.5, 0.5, 0.1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_mobiw"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_a327f"]
 viewport_path = NodePath("XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vxw7s"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x88a4"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_mobiw")
+albedo_texture = SubResource("ViewportTexture_a327f")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hs4ia"]
 size = Vector2(1.5, 0.5)
@@ -67,11 +71,41 @@ size = Vector2(1.5, 0.5)
 [sub_resource type="Theme" id="Theme_kp5xy"]
 default_font_size = 20
 
-[sub_resource type="Theme" id="Theme_2rkh0"]
-default_font_size = 100
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdopr"]
 albedo_color = Color(0.945098, 0.741176, 0.572549, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pfn31"]
+size = Vector3(1.4, 0.1, 0.7)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_gykw1"]
+viewport_path = NodePath("XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_etaum"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_gykw1")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_dks25"]
+size = Vector2(1.4, 0.7)
+
+[sub_resource type="Theme" id="Theme_naovj"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_qjfv5"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_8nnnt"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_ypomx"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_pgvej"]
+default_font_size = 30
+
+[sub_resource type="Theme" id="Theme_iml5p"]
+default_font_size = 25
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2iw24"]
 shading_mode = 0
@@ -101,14 +135,14 @@ size = Vector3(50, 50, 50)
 [sub_resource type="BoxShape3D" id="BoxShape3D_nd2rd"]
 size = Vector3(4, 0.1, 2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_haawq"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_3mf41"]
 viewport_path = NodePath("SpatialMenu/PlaneMesh/SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6hhfn"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gxwk"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_haawq")
+albedo_texture = SubResource("ViewportTexture_3mf41")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_n01wy"]
 size = Vector2(4, 2)
@@ -242,6 +276,21 @@ size = Vector3(100, 100, 100)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ihd00"]
 albedo_color = Color(0, 0, 0, 1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_avhjg"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_uk88w"]
+viewport_path = NodePath("OuterLand2/Goblin/GoblinHealth/SubViewportContainer/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_twpyl"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+albedo_texture = SubResource("ViewportTexture_uk88w")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_nka6n"]
+size = Vector2(2, 0.2)
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_k7qbd"]
 viewport_path = NodePath("OuterLand2/CountDown_2_1/Plane_2/SubViewport")
 
@@ -280,7 +329,9 @@ offset_right = 200.0
 offset_bottom = 27.0
 
 [node name="SubViewport" type="SubViewport" parent="XROrigin3D/XRCamera3D/PlayerHealthBar/HealthBar"]
+handle_input_locally = false
 size = Vector2i(200, 27)
+render_target_update_mode = 4
 
 [node name="Control" type="Control" parent="XROrigin3D/XRCamera3D/PlayerHealthBar/HealthBar/SubViewport"]
 layout_mode = 3
@@ -306,7 +357,7 @@ shape = SubResource("BoxShape3D_ie07v")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/Death"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_vxw7s")
+material_override = SubResource("StandardMaterial3D_x88a4")
 mesh = SubResource("PlaneMesh_hs4ia")
 
 [node name="SubViewport" type="SubViewport" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D"]
@@ -349,23 +400,6 @@ grow_vertical = 2
 text = "You will be sent back to the main base in 3 seconds.
 "
 
-[node name="BackCD" type="Button" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -100.0
-offset_right = 100.0
-offset_bottom = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = SubResource("Theme_2rkh0")
-text = "3"
-
 [node name="LeftController" type="XRController3D" parent="XROrigin3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 1.4, -0.4)
@@ -380,6 +414,122 @@ hand_material_override = SubResource("StandardMaterial3D_xdopr")
 [node name="MovementDirect" parent="XROrigin3D/LeftController" instance=ExtResource("4_esj0b")]
 max_speed = 5.0
 
+[node name="MissionBoard" type="Area3D" parent="XROrigin3D/LeftController"]
+script = ExtResource("6_p2hps")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftController/MissionBoard"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -1.05, 0)
+shape = SubResource("BoxShape3D_pfn31")
+
+[node name="BoardMesh" type="MeshInstance3D" parent="XROrigin3D/LeftController/MissionBoard"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, -1, 0)
+material_override = SubResource("StandardMaterial3D_etaum")
+mesh = SubResource("PlaneMesh_dks25")
+
+[node name="SubViewport" type="SubViewport" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh"]
+transparent_bg = true
+size = Vector2i(512, 256)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -128.0
+offset_right = 256.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="MissionTitle" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 10.0
+offset_right = 150.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme = SubResource("Theme_naovj")
+text = "Mission"
+
+[node name="MissionDescription_1" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 70.0
+offset_right = 200.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme = SubResource("Theme_qjfv5")
+text = "Defeat 5 Demons"
+
+[node name="Done" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -76.0
+offset_top = 2.0
+offset_right = -26.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_8nnnt")
+text = "0"
+
+[node name="Slash" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = 2.0
+offset_right = 25.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_ypomx")
+text = "/"
+
+[node name="Goal" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 26.0
+offset_top = 2.0
+offset_right = 76.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_pgvej")
+text = "5"
+
+[node name="Submit" type="Button" parent="XROrigin3D/LeftController/MissionBoard/BoardMesh/SubViewport/CanvasLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -132.0
+offset_top = -66.0
+offset_right = -12.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = SubResource("Theme_iml5p")
+text = "SUBMIT"
+
 [node name="RightController" type="XRController3D" parent="XROrigin3D"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.4, -0.4)
@@ -389,6 +539,7 @@ pose = &"aim"
 [node name="LaserPointer" type="MeshInstance3D" parent="XROrigin3D/RightController"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+visible = false
 mesh = SubResource("BoxMesh_hmrib")
 script = ExtResource("5_v3i65")
 
@@ -402,12 +553,14 @@ ranged_angle = 10.0
 [node name="MovementTurn" parent="XROrigin3D/RightController" instance=ExtResource("7_gss68")]
 
 [node name="PlayerBody" parent="XROrigin3D" instance=ExtResource("7_hmvxe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 32768
 collision_mask = 9
 push_rigid_bodies = false
 
 [node name="Area3D" type="Area3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-collision_layer = 524289
+collision_layer = 524288
 collision_mask = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/Area3D"]
@@ -433,7 +586,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_nd2rd")
 
 [node name="PlaneMesh" type="MeshInstance3D" parent="SpatialMenu"]
-material_override = SubResource("StandardMaterial3D_6hhfn")
+material_override = SubResource("StandardMaterial3D_8gxwk")
 mesh = SubResource("PlaneMesh_n01wy")
 
 [node name="SubViewport" type="SubViewport" parent="SpatialMenu/PlaneMesh"]
@@ -888,6 +1041,47 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ihd00")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 200, -200)
 visible = false
 
+[node name="Goblin" type="RigidBody3D" parent="OuterLand2"]
+unique_name_in_owner = true
+script = ExtResource("22_p7pdi")
+
+[node name="Goblin" parent="OuterLand2/Goblin" instance=ExtResource("23_rvukb")]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, -0.25, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand2/Goblin"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 0, 2, 0)
+shape = SubResource("SphereShape3D_avhjg")
+
+[node name="GoblinHealth" type="MeshInstance3D" parent="OuterLand2/Goblin"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3.5, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_twpyl")
+mesh = SubResource("PlaneMesh_nka6n")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="OuterLand2/Goblin/GoblinHealth"]
+offset_right = 200.0
+offset_bottom = 27.0
+
+[node name="SubViewport" type="SubViewport" parent="OuterLand2/Goblin/GoblinHealth/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(200, 27)
+render_target_update_mode = 4
+
+[node name="Control" type="Control" parent="OuterLand2/Goblin/GoblinHealth/SubViewportContainer/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 27.0
+
+[node name="GoblinHealthBar" type="ProgressBar" parent="OuterLand2/Goblin/GoblinHealth/SubViewportContainer/SubViewport/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 27.0
+value = 100.0
+script = ExtResource("24_3rrqj")
+
 [node name="Ground" type="StaticBody3D" parent="OuterLand2"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand2/Ground"]
@@ -913,6 +1107,7 @@ shape = SubResource("SphereShape3D_p47un")
 
 [node name="GoBack_2" type="RigidBody3D" parent="OuterLand2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 47.8699)
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand2/GoBack_2"]
 mesh = SubResource("SphereMesh_1lepo")
@@ -988,6 +1183,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ihd00")
 [connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/Back" to="SpatialMenu" method="_on_back_pressed"]
 [connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/Next" to="SpatialMenu" method="_on_next_pressed"]
 [connection signal="body_entered" from="Tables/PickableSword/Area3D" to="OuterLand1/Demon/MeshInstance3D/HealthBar/SubViewport/Control/DemonHealthBar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Tables/PickableSword/Area3D" to="OuterLand2/Goblin/GoblinHealth/SubViewportContainer/SubViewport/Control/GoblinHealthBar" method="_on_area_3d_body_entered"]
 
 [editable path="Tables/PickableSword"]
 [editable path="Tables/PickableSword/sword"]

@@ -8,8 +8,7 @@ func _ready():
 	# pass # Replace with function body.
 	laser = get_node("/root/Main/XROrigin3D/RightController/LaserPointer")
 	rightController = get_node("/root/Main/XROrigin3D/RightController")
-
-	laser.visible = false
+	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

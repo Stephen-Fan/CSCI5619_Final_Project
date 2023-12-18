@@ -22,7 +22,7 @@ func _ready():
 	randomize()
 
 
-# Generate a random number from 1-5
+# Generate a random number
 func get_random_number(a: int, b: int):
 	return randi_range(a, b)
 
