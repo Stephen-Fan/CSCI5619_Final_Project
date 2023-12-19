@@ -19,6 +19,7 @@ var portal_activated
 
 var go_back_1
 var go_back_2
+var go_back_3
 
 var difficulty_mode = 0
 
@@ -44,7 +45,7 @@ func _ready():
 
 	go_back_1 = get_node("/root/Main/OuterLand1/GoBack_1")
 	go_back_2 = get_node("/root/Main/OuterLand2/GoBack_2")
-
+	go_back_3 = get_node("/root/Main/OuterLand3/GoBack_3")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -122,6 +123,8 @@ func _on_continue_pressed():
 		go_back_1.visible = true
 	elif difficulty_mode == 2:
 		go_back_2.visible = true
+	elif difficulty_mode == 3:
+		go_back_3.visible = true
 
 	mission_title.visible = true
 	easy_mode.visible = true

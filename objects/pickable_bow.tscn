@@ -1,0 +1,73 @@
+[gd_scene load_steps=15 format=3 uid="uid://djop2kdoavpl4"]
+
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_nxgxo"]
+[ext_resource type="PackedScene" uid="uid://bl5un3xiei65k" path="res://third party assets/bow.glb" id="2_16fd8"]
+[ext_resource type="Texture2D" uid="uid://dwarsd87vkfhh" path="res://third party assets/Bow.png" id="3_jicba"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="4_lwynx"]
+[ext_resource type="Animation" uid="uid://plad1r85f7ws" path="res://addons/godot-xr-tools/hands/animations/left/Grip.res" id="5_6vsdb"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="5_26xtg"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="6_v602b"]
+[ext_resource type="Animation" uid="uid://ccds2u22gbxn7" path="res://addons/godot-xr-tools/hands/animations/right/Grip.res" id="8_6d3j7"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_p1ytb"]
+margin = 0.005
+points = PackedVector3Array(1.71839, 0.0758977, 7.06256, 1.47202, 0.158037, 6.56896, 1.71839, 0.0758977, -7.06256, -0.170374, 0.240175, -3.20221, -0.170374, -0.252561, 2.62703, 1.22565, -0.170423, -6.32284, -0.170374, 0.240175, 3.20221, 1.71839, -0.0882836, 7.06256, 0.978895, -0.170423, 6.40442, 1.47202, 0.158037, -6.56896, -0.252561, -0.252561, -2.29934, 0.240175, -0.170423, -5.09091, 1.71839, -0.0882836, -7.06256, 0.40455, 0.158037, 5.41998, 0.814714, 0.158037, -6.15831, 0.240175, 0.240175, 3.28379, 0.240175, -0.170423, 5.09091, 0.240175, -0.252561, 2.62703, 1.14327, -0.170423, 6.40442, 0.978895, -0.170423, -6.40442, 0.240175, -0.252561, -2.62703, 0.240175, 0.240175, -3.28379, -0.252561, -0.252561, 2.29934, 1.06127, 0.158037, 6.48738, 0.40455, 0.158037, -5.41998, 1.55401, 0.0758977, -7.06256, 1.55401, -0.0882836, 7.06256, 1.22565, 0.158037, -6.65192, 0.486544, -0.170423, -5.58313, -0.170374, -0.252561, -2.62703, 0.814714, 0.158037, 6.15831, 0.486544, -0.170423, 5.58313)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kgyt3"]
+albedo_texture = ExtResource("3_jicba")
+
+[sub_resource type="Resource" id="Resource_nvbk4"]
+script = ExtResource("6_v602b")
+open_pose = ExtResource("5_6vsdb")
+closed_pose = ExtResource("5_6vsdb")
+
+[sub_resource type="Resource" id="Resource_p5tq2"]
+script = ExtResource("6_v602b")
+open_pose = ExtResource("8_6d3j7")
+closed_pose = ExtResource("8_6d3j7")
+
+[sub_resource type="SphereMesh" id="SphereMesh_u6ts2"]
+radius = 0.025
+height = 0.05
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_xjek3"]
+
+[node name="PickableBow" groups=["Bow"] instance=ExtResource("1_nxgxo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0623327, 0, 0)
+
+[node name="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_p1ytb")
+
+[node name="bow" parent="." index="1" instance=ExtResource("2_16fd8")]
+
+[node name="Skeleton3D" parent="bow/Armature" index="0"]
+bones/1/position = Vector3(0.000474975, -1.63753, 0.000474975)
+bones/1/scale = Vector3(1.00048, 1.00048, 1.00048)
+
+[node name="Cube" parent="bow/Armature/Skeleton3D" index="0"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_kgyt3")
+
+[node name="GrabPointHandLeft" parent="." index="2" instance=ExtResource("4_lwynx")]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, -0.101911, -0.0103039, 0)
+hand_pose = SubResource("Resource_nvbk4")
+
+[node name="GrabPointHandRight" parent="." index="3" instance=ExtResource("5_26xtg")]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, -0.102, 0.0127044, 0)
+hand_pose = SubResource("Resource_p5tq2")
+
+[node name="PullPivot" type="StaticBody3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.161, 0, 0)
+collision_layer = 33
+collision_mask = 65
+
+[node name="Pivot" type="MeshInstance3D" parent="PullPivot" index="0"]
+mesh = SubResource("SphereMesh_u6ts2")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PullPivot" index="1"]
+transform = Transform3D(0.07, 0, 0, 0, 0.07, 0, 0, 0, 0.07, 0, 0, 0)
+shape = SubResource("SphereShape3D_xjek3")
+
+[editable path="bow"]

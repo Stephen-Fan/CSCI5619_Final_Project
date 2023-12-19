@@ -31,7 +31,7 @@ closed_pose = ExtResource("5_75ms0")
 script = ExtResource("6_swke0")
 closed_pose = ExtResource("8_outxk")
 
-[node name="PickableSword" groups=["Weapon"] instance=ExtResource("1_825j5")]
+[node name="PickableSword" groups=["Sword"] instance=ExtResource("1_825j5")]
 collision_layer = 65537
 collision_mask = 196623
 

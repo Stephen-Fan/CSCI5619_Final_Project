@@ -36,8 +36,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if rightController.is_button_pressed("ax_button") && leftController.is_button_pressed("ax_button"):
-		sword.visible = false
+	# if rightController.is_button_pressed("ax_button") && leftController.is_button_pressed("ax_button"):
+	# 	sword.visible = false
+	pass
 
 func _on_weapon_button_1_pressed():
 	print("Sword Selected")

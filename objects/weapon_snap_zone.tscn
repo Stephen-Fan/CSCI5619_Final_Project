@@ -38,7 +38,7 @@ albedo_color = Color(0, 0, 0, 1)
 
 [node name="WeaponSnapZone" instance=ExtResource("1_a2wi7")]
 snap_mode = 1
-snap_require = "Weapon"
+snap_require = "Sword"
 
 [node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("SphereShape3D_q773q")

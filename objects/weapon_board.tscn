@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://oebi4wt7sbou"]
+[gd_scene load_steps=4 format=3 uid="uid://oebi4wt7sbou"]
 
 [ext_resource type="PackedScene" uid="uid://iu8osehu2ttf" path="res://objects/weapon_snap_zone.tscn" id="1_2sfr2"]
+[ext_resource type="PackedScene" uid="uid://ccsb6qsfn2fe2" path="res://objects/bow_snap_zone.tscn" id="2_cg5ju"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_q6lt0"]
 size = Vector3(2, 1, 0.01)
@@ -13,3 +14,6 @@ mesh = SubResource("BoxMesh_q6lt0")
 
 [node name="WeaponSnapZone" parent="." instance=ExtResource("1_2sfr2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.713684, 0.247424, 0.0188257)
+
+[node name="BowSnapZone" parent="." instance=ExtResource("2_cg5ju")]
+transform = Transform3D(0.549927, -3.65083e-08, -0.835213, -0.835213, -2.40381e-08, -0.549927, 0, 1, -4.37114e-08, -0.351667, 0.623885, 0.0248397)

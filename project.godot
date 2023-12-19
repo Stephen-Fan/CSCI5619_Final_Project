@@ -29,6 +29,8 @@ enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
 3d_physics/layer_2="dynamic world"
 3d_physics/layer_3="object"
 3d_physics/layer_4="enemy"
+3d_physics/layer_6="bow_pivot"
+3d_physics/layer_7="right_hand"
 3d_physics/layer_17="held object"
 3d_physics/layer_20="player body"
 

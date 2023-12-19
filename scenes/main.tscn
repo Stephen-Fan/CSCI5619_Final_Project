@@ -1,4 +1,4 @@
-[gd_scene load_steps=108 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=122 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_7lme0"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_ammvp"]
@@ -19,12 +19,16 @@
 [ext_resource type="AudioStream" uid="uid://voqkj7jo1cvb" path="res://sound/mixkit-sword-cutting-flesh-2788.wav" id="13_mahb5"]
 [ext_resource type="Script" path="res://scripts/demon.gd" id="17_85cbw"]
 [ext_resource type="PackedScene" uid="uid://bkih6001bnvdy" path="res://third party assets/Demon.glb" id="17_pvsmb"]
+[ext_resource type="PackedScene" uid="uid://djop2kdoavpl4" path="res://objects/pickable_bow.tscn" id="18_ql0jc"]
 [ext_resource type="Material" uid="uid://cnsb8igmsrf3a" path="res://textures/ground_texture.tres" id="19_7eg6e"]
 [ext_resource type="Script" path="res://scripts/demon_health_bar.gd" id="19_d38gf"]
 [ext_resource type="Script" path="res://scripts/back_to_origin.gd" id="20_py4bd"]
 [ext_resource type="Script" path="res://scripts/goblin.gd" id="22_p7pdi"]
 [ext_resource type="PackedScene" uid="uid://bvo8k4qan4dr0" path="res://third party assets/Goblin.glb" id="23_rvukb"]
 [ext_resource type="Script" path="res://scripts/goblin_health_bar.gd" id="24_3rrqj"]
+[ext_resource type="PackedScene" uid="uid://jnx7r7wsk0nk" path="res://third party assets/giants.glb" id="27_85oiq"]
+[ext_resource type="Script" path="res://scripts/Giants.gd" id="27_iw0kc"]
+[ext_resource type="Script" path="res://scripts/GiantsHealthBar.gd" id="29_q2roi"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_osj4q"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -56,14 +60,14 @@ size = Vector2(0.8, 0.03)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ie07v"]
 size = Vector3(1.5, 0.5, 0.1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_7lj75"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ywnh7"]
 viewport_path = NodePath("XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_x88a4"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4kfc2"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_7lj75")
+albedo_texture = SubResource("ViewportTexture_ywnh7")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hs4ia"]
 size = Vector2(1.5, 0.5)
@@ -120,6 +124,8 @@ size = Vector3(0.004, 0.004, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pcnyl"]
 albedo_color = Color(0.945098, 0.741176, 0.572549, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_tq2ax"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y2g12"]
 
@@ -183,28 +189,37 @@ default_font_size = 45
 [sub_resource type="BoxShape3D" id="BoxShape3D_ecyms"]
 size = Vector3(2, 0.1, 2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_qfjml"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_kg5uu"]
 viewport_path = NodePath("CountDown/Plane/SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_melvf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h66bp"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_qfjml")
+albedo_texture = SubResource("ViewportTexture_kg5uu")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hrhg5"]
 
 [sub_resource type="Theme" id="Theme_f0366"]
 default_font_size = 200
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_22dl8"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_k5woq"]
 viewport_path = NodePath("CountDown2/Plane/SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sr7pt"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1ho15"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_22dl8")
+albedo_texture = SubResource("ViewportTexture_k5woq")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_xnrln"]
+viewport_path = NodePath("CountDown3/Plane/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qmpdh"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_xnrln")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1wlf2"]
 albedo_color = Color(0, 1, 0, 1)
@@ -215,6 +230,9 @@ albedo_color = Color(0, 1, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jfo1m"]
 albedo_color = Color(1, 0.419608, 0.0588235, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_44mcu"]
+albedo_color = Color(1, 0, 0, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_38xac"]
 
@@ -303,6 +321,30 @@ transparency = 1
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_k7qbd")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_g77ku"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ovswh"]
+viewport_path = NodePath("OuterLand3/Giants/GiantsHealthBar/SubViewportContainer/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cojnw"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0, 1, 0, 1)
+albedo_texture = SubResource("ViewportTexture_ovswh")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_eqpgu"]
+size = Vector2(2, 0.2)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_w8iyi"]
+viewport_path = NodePath("OuterLand3/CountDown_3_1/Plane_3/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p5k76"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_w8iyi")
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_7lme0")
 
@@ -359,7 +401,7 @@ shape = SubResource("BoxShape3D_ie07v")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/Death"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_x88a4")
+material_override = SubResource("StandardMaterial3D_4kfc2")
 mesh = SubResource("PlaneMesh_hs4ia")
 
 [node name="SubViewport" type="SubViewport" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D"]
@@ -708,6 +750,15 @@ ranged_angle = 10.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightController" instance=ExtResource("7_gss68")]
 
+[node name="Area3D" type="Area3D" parent="XROrigin3D/RightController"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0295199, 0.0827318)
+collision_layer = 65
+collision_mask = 33
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightController/Area3D"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+shape = SubResource("SphereShape3D_tq2ax")
+
 [node name="PlayerBody" parent="XROrigin3D" instance=ExtResource("7_hmvxe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 32768
@@ -716,8 +767,6 @@ push_rigid_bodies = false
 
 [node name="Area3D" type="Area3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-collision_layer = 524288
-collision_mask = 9
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/Area3D"]
 shape = SubResource("CapsuleShape3D_y2g12")
@@ -922,7 +971,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_ecyms")
 
 [node name="Plane" type="MeshInstance3D" parent="CountDown"]
-material_override = SubResource("StandardMaterial3D_melvf")
+material_override = SubResource("StandardMaterial3D_h66bp")
 mesh = SubResource("PlaneMesh_hrhg5")
 
 [node name="SubViewport" type="SubViewport" parent="CountDown/Plane"]
@@ -971,7 +1020,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 shape = SubResource("BoxShape3D_ecyms")
 
 [node name="Plane" type="MeshInstance3D" parent="CountDown2"]
-material_override = SubResource("StandardMaterial3D_sr7pt")
+material_override = SubResource("StandardMaterial3D_1ho15")
 mesh = SubResource("PlaneMesh_hrhg5")
 
 [node name="SubViewport" type="SubViewport" parent="CountDown2/Plane"]
@@ -1009,6 +1058,54 @@ grow_vertical = 2
 theme = SubResource("Theme_f0366")
 text = "3"
 
+[node name="CountDown3" type="Area3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 15, 2.651, -25.485)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CountDown3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_ecyms")
+
+[node name="Plane" type="MeshInstance3D" parent="CountDown3"]
+material_override = SubResource("StandardMaterial3D_qmpdh")
+mesh = SubResource("PlaneMesh_hrhg5")
+
+[node name="SubViewport" type="SubViewport" parent="CountDown3/Plane"]
+transparent_bg = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="CountDown3/Plane/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="CountDown3/Plane/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 768.0
+offset_bottom = 768.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="CD" type="Button" parent="CountDown3/Plane/SubViewport/CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_f0366")
+text = "3"
+
 [node name="SwordHitEnemy" type="AudioStreamPlayer3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.18707, 1.67559, -3.5056)
@@ -1028,7 +1125,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0240774, 0.952513, 0.28615)
 [node name="PickableSword" parent="Tables" instance=ExtResource("8_wujhb")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.642917, 1.60238, 0.298849)
+visible = false
 collision_layer = 65536
+
+[node name="PickableBow" parent="Tables" instance=ExtResource("18_ql0jc")]
+unique_name_in_owner = true
+transform = Transform3D(0.548147, -1.96004e-08, -0.836382, -0.836382, -3.29321e-08, -0.548147, -1.68e-08, 1, -3.4445e-08, -0.329755, 1.57396, 0.297745)
+visible = false
 
 [node name="Portal1" type="StaticBody3D" parent="."]
 unique_name_in_owner = true
@@ -1054,6 +1157,20 @@ material_override = SubResource("StandardMaterial3D_jfo1m")
 mesh = SubResource("TorusMesh_s75hb")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Portal2"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 1.543, -2)
+shape = SubResource("SphereShape3D_tjnb7")
+
+[node name="Portal3" type="StaticBody3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 2, -18)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Portal3"]
+transform = Transform3D(5, 0, 0, 0, -2.18557e-07, -5, 0, 5, -2.18557e-07, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_44mcu")
+mesh = SubResource("TorusMesh_s75hb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Portal3"]
 transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 1.543, -2)
 shape = SubResource("SphereShape3D_tjnb7")
 
@@ -1326,6 +1443,137 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.5, 0)
 mesh = SubResource("BoxMesh_vq5pt")
 surface_material_override/0 = SubResource("StandardMaterial3D_ihd00")
 
+[node name="OuterLand3" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 200, 200, -200)
+visible = false
+
+[node name="Giants" type="StaticBody3D" parent="OuterLand3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+script = ExtResource("27_iw0kc")
+
+[node name="giants" parent="OuterLand3/Giants" instance=ExtResource("27_85oiq")]
+transform = Transform3D(-8.74228e-08, 0, 2, 0, 2, 0, -2, 0, -8.74228e-08, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand3/Giants"]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, 0, 0, 0)
+shape = SubResource("SphereShape3D_g77ku")
+
+[node name="GiantsHealthBar" type="MeshInstance3D" parent="OuterLand3/Giants"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3.19391, 0)
+visible = false
+material_override = SubResource("StandardMaterial3D_cojnw")
+mesh = SubResource("PlaneMesh_eqpgu")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="OuterLand3/Giants/GiantsHealthBar"]
+offset_right = 200.0
+offset_bottom = 27.0
+
+[node name="SubViewport" type="SubViewport" parent="OuterLand3/Giants/GiantsHealthBar/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(200, 27)
+render_target_update_mode = 4
+
+[node name="Control" type="Control" parent="OuterLand3/Giants/GiantsHealthBar/SubViewportContainer/SubViewport"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 27.0
+
+[node name="GiantsHealthBar" type="ProgressBar" parent="OuterLand3/Giants/GiantsHealthBar/SubViewportContainer/SubViewport/Control"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 27.0
+value = 100.0
+script = ExtResource("29_q2roi")
+
+[node name="Ground" type="StaticBody3D" parent="OuterLand3"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand3/Ground"]
+mesh = SubResource("PlaneMesh_h2tjm")
+surface_material_override/0 = ExtResource("19_7eg6e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand3/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_yti7y")
+
+[node name="Portal3_1" type="StaticBody3D" parent="OuterLand3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 45)
+collision_layer = 2
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand3/Portal3_1"]
+transform = Transform3D(5, 0, 0, 0, -2.18557e-07, -5, 0, 5, -2.18557e-07, 0, 2, 0)
+material_override = SubResource("StandardMaterial3D_sa6jm")
+mesh = SubResource("TorusMesh_nmwya")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand3/Portal3_1"]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 3.543, -2)
+shape = SubResource("SphereShape3D_p47un")
+
+[node name="GoBack_3" type="RigidBody3D" parent="OuterLand3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 47.87)
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand3/GoBack_3"]
+mesh = SubResource("SphereMesh_1lepo")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_usvru")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand3/GoBack_3"]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_yl38u")
+
+[node name="CountDown_3_1" type="Area3D" parent="OuterLand3"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 3, 51.8496)
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="OuterLand3/CountDown_3_1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_crkyu")
+
+[node name="Plane_3" type="MeshInstance3D" parent="OuterLand3/CountDown_3_1"]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_p5k76")
+mesh = SubResource("PlaneMesh_swbke")
+
+[node name="SubViewport" type="SubViewport" parent="OuterLand3/CountDown_3_1/Plane_3"]
+transparent_bg = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="OuterLand3/CountDown_3_1/Plane_3/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="OuterLand3/CountDown_3_1/Plane_3/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 768.0
+offset_bottom = 768.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="CD_3" type="Button" parent="OuterLand3/CountDown_3_1/Plane_3/SubViewport/CanvasLayer"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -150.0
+offset_right = 150.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_1lpno")
+text = "3"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="OuterLand3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -51.5, 0)
+mesh = SubResource("BoxMesh_vq5pt")
+surface_material_override/0 = SubResource("StandardMaterial3D_ihd00")
+
 [connection signal="pressed" from="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Easy" to="XROrigin3D/XRCamera3D/MissionBoard" method="_on_easy_pressed"]
 [connection signal="pressed" from="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Medium" to="XROrigin3D/XRCamera3D/MissionBoard" method="_on_medium_pressed"]
 [connection signal="pressed" from="XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Hard" to="XROrigin3D/XRCamera3D/MissionBoard" method="_on_hard_pressed"]
@@ -1345,6 +1593,9 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ihd00")
 [connection signal="pressed" from="SpatialMenu/PlaneMesh/SubViewport/CanvasLayer/Next" to="SpatialMenu" method="_on_next_pressed"]
 [connection signal="body_entered" from="Tables/PickableSword/Area3D" to="OuterLand1/Demon/MeshInstance3D/HealthBar/SubViewport/Control/DemonHealthBar" method="_on_area_3d_body_entered"]
 [connection signal="body_entered" from="Tables/PickableSword/Area3D" to="OuterLand2/Goblin/GoblinHealth/SubViewportContainer/SubViewport/Control/GoblinHealthBar" method="_on_area_3d_body_entered"]
+[connection signal="body_entered" from="Tables/PickableSword/Area3D" to="OuterLand3/Giants/GiantsHealthBar/SubViewportContainer/SubViewport/Control/GiantsHealthBar" method="_on_area_3d_body_entered"]
 
 [editable path="Tables/PickableSword"]
 [editable path="Tables/PickableSword/sword"]
+[editable path="Tables/PickableBow"]
+[editable path="Tables/PickableBow/bow"]
