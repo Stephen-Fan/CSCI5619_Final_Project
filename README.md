@@ -16,7 +16,9 @@ I. **Third Party Assets**. I used a couple of models and sound effects from the 
 
    `7. Sword Sound Effects: https://mixkit.co/free-sound-effects/sword/`
 
-   `8. Ground Texture: https://polyhaven.com/a/concrete_rock_path`
+   `8. Laser Sound Effects: https://mixkit.co/free-sound-effects/laser/`
+
+   `9. Ground Texture: https://polyhaven.com/a/concrete_rock_path`
 
 II. **Functionality**. The functionalities of the game and usage of it are described as follows.
 
