@@ -18,6 +18,8 @@ var mission_board
 var mission_board_delete
 var mode
 var spatial_menu_scene
+var character_board_scene
+var area_clear_sound
 
 
 # Called when the node enters the scene tree for the first time.
@@ -36,6 +38,8 @@ func _ready():
 	mission_board_delete = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Delete")
 	mode = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard")
 	spatial_menu_scene = get_node("/root/Main/SpatialMenu")
+	character_board_scene = get_node("/root/Main/XROrigin3D/XRCamera3D/Character")
+	area_clear_sound = get_node("/root/Main/AreaClearSound")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -48,6 +52,7 @@ func _reset_progress():
 # When the user completes the mission, this area is clear
 func _area_clear_prompt():
 	area_clear.visible = true
+	area_clear_sound.playing = true
 	await get_tree().create_timer(3).timeout
 	area_clear.visible = false
 
@@ -97,7 +102,7 @@ func _on_area_3d_body_entered(body:Node3D):
 
 		# Derease monster's health when the user hits the monster
 		else:
-			health -= 10
+			health -= character_board_scene.local_attack
 			if health <= 0:
 				health = 0
 		

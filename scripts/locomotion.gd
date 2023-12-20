@@ -56,6 +56,8 @@ var demon_health_bar_scene
 var goblin_health_bar_scene
 var giants_health_bar_scene
 
+var death_sound
+
 var is_monster_activated = false
 var monster_code = 0	# demon: 1, goblin: 2, giants: 3
 
@@ -105,7 +107,7 @@ func _ready():
 	death_board_back_info = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/BackInfo")
 	
 	done = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Done")
-
+	death_sound = get_node("/root/Main/DeathSound")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -128,8 +130,8 @@ func _player_death_and_resurrection():
 	_delete_monster_when_player_dead()
 	done.text = "0"
 	player_health_bar_mesh.visible = false
-	death_board.visible = true
 	death_board_lose.visible = true
+	death_sound.playing = true
 	await get_tree().create_timer(2).timeout
 	death_board_lose.visible = false
 	death_board_back_info.visible = true
@@ -140,6 +142,7 @@ func _player_death_and_resurrection():
 	await get_tree().create_timer(1).timeout
 	death_board_back_info.text = "You will be sent back to the main base in 0 seconds."
 	await get_tree().create_timer(1).timeout
+
 	
 	# Resurrection
 	monster_code = 0

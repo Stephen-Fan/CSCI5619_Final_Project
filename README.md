@@ -18,7 +18,13 @@ I. **Third Party Assets**. I used a couple of models and sound effects from the 
 
    `8. Laser Sound Effects: https://mixkit.co/free-sound-effects/laser/`
 
-   `9. Ground Texture: https://polyhaven.com/a/concrete_rock_path`
+   `9. Level Up Sound Effects: https://mixkit.co/free-sound-effects/game/`
+
+   `10. Game Over Sound Effects: https://mixkit.co/free-sound-effects/game-over/`
+
+   `11. Area Clear Sound Effects: https://mixkit.co/free-sound-effects/video-game/`
+
+   `12. Ground Texture: https://polyhaven.com/a/concrete_rock_path`
 
 II. **Functionality**. The functionalities of the game and usage of it are described as follows.
 

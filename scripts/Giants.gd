@@ -4,6 +4,7 @@ var player_camera
 var player_body
 var giants_health_bar_scene
 var giants_health_bar_mesh
+var character_board_scene
 
 var is_giants_activated = false
 # var to_activate_monster
@@ -19,7 +20,7 @@ func _ready():
 	player_camera = get_node("/root/Main/XROrigin3D/XRCamera3D")
 	player_body = get_node("/root/Main/XROrigin3D")
 	giants_health_bar_scene = get_node("/root/Main/OuterLand3/Giants/GiantsHealthBar/SubViewportContainer/SubViewport/Control/GiantsHealthBar")
-	# to_activate_monster = get_node("/root/Main/OuterLand1/Demon")
+	character_board_scene = get_node("/root/Main/XROrigin3D/XRCamera3D/Character")
 	randomize()
 
 
@@ -53,6 +54,7 @@ func _giants_recreate():
 
 # Delete the current demon and hide it's all information
 func _giants_delete():
+	character_board_scene.local_exp += 50
 	is_giants_activated = false
 	self.visible = false
 	self.global_transform.origin += Vector3(0,-30,0)

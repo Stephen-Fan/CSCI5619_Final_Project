@@ -6,12 +6,14 @@ var is_goblin_activated = false
 var player_body
 var goblin_health_bar_mesh
 var goblin_health_bar_scene
+var character_board_scene
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	player_body = get_node("/root/Main/XROrigin3D")
 	goblin_health_bar_mesh = get_node("/root/Main/OuterLand2/Goblin/GoblinHealth")
 	goblin_health_bar_scene = get_node("/root/Main/OuterLand2/Goblin/GoblinHealth/SubViewportContainer/SubViewport/Control/GoblinHealthBar")
+	character_board_scene = get_node("/root/Main/XROrigin3D/XRCamera3D/Character")
 	randomize()
 
 # Generate a random number
@@ -44,6 +46,7 @@ func _goblin_recreate():
 
 # Delete the current goblin and hide it's all information
 func _goblin_delete():
+	character_board_scene.local_exp += 30
 	is_goblin_activated = false
 	self.visible = false
 	self.global_transform.origin += Vector3(0,-10,0)

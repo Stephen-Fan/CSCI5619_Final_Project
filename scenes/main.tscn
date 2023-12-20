@@ -1,10 +1,11 @@
-[gd_scene load_steps=123 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=138 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_7lme0"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_ammvp"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="3_5nigw"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_w5hhb"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="4_esj0b"]
+[ext_resource type="Script" path="res://scripts/character_board.gd" id="4_n3flm"]
 [ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="5_iah0x"]
 [ext_resource type="Script" path="res://scripts/laser_pointer.gd" id="5_v3i65"]
 [ext_resource type="Script" path="res://scripts/mission_board.gd" id="6_p2hps"]
@@ -17,8 +18,11 @@
 [ext_resource type="PackedScene" uid="uid://oebi4wt7sbou" path="res://objects/weapon_board.tscn" id="11_jnh04"]
 [ext_resource type="AudioStream" uid="uid://djdq15pram1xw" path="res://sound/mixkit-sword-slash-swoosh-1476.mp3" id="12_vpclk"]
 [ext_resource type="AudioStream" uid="uid://cam86d2w7lo37" path="res://sound/mixkit-sci-fi-battle-laser-shots-2783.wav" id="14_ovy7o"]
+[ext_resource type="AudioStream" uid="uid://pgtexhgjmbx2" path="res://sound/Level_up.wav" id="16_ufkbl"]
 [ext_resource type="Script" path="res://scripts/demon.gd" id="17_85cbw"]
 [ext_resource type="PackedScene" uid="uid://bkih6001bnvdy" path="res://third party assets/Demon.glb" id="17_pvsmb"]
+[ext_resource type="AudioStream" uid="uid://bqtu6o4wk8oqb" path="res://sound/death.wav" id="17_rxudq"]
+[ext_resource type="AudioStream" uid="uid://dvkk5gfom7noa" path="res://sound/area_clear.wav" id="18_ky6xg"]
 [ext_resource type="PackedScene" uid="uid://djop2kdoavpl4" path="res://objects/pickable_bow.tscn" id="18_ql0jc"]
 [ext_resource type="Material" uid="uid://cnsb8igmsrf3a" path="res://textures/ground_texture.tres" id="19_7eg6e"]
 [ext_resource type="Script" path="res://scripts/demon_health_bar.gd" id="19_d38gf"]
@@ -60,14 +64,14 @@ size = Vector2(0.8, 0.03)
 [sub_resource type="BoxShape3D" id="BoxShape3D_ie07v"]
 size = Vector3(1.5, 0.5, 0.1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_ywnh7"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_bmihs"]
 viewport_path = NodePath("XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4kfc2"]
 resource_local_to_scene = true
 transparency = 1
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_ywnh7")
+albedo_texture = SubResource("ViewportTexture_bmihs")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hs4ia"]
 size = Vector2(1.5, 0.5)
@@ -110,6 +114,42 @@ default_font_size = 30
 
 [sub_resource type="Theme" id="Theme_iml5p"]
 default_font_size = 25
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_muhg4"]
+size = Vector3(1, 0.1, 0.5)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ovi3i"]
+viewport_path = NodePath("XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yr8nn"]
+resource_local_to_scene = true
+transparency = 1
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_ovi3i")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rdnbf"]
+size = Vector2(1, 0.5)
+
+[sub_resource type="Theme" id="Theme_72vx5"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_0r1ew"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_q4gpe"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_w0gld"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_wta6p"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_rkfx0"]
+default_font_size = 20
+
+[sub_resource type="Theme" id="Theme_63smn"]
+default_font_size = 20
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xdopr"]
 albedo_color = Color(0.945098, 0.741176, 0.572549, 1)
@@ -436,6 +476,23 @@ theme = SubResource("Theme_kp5xy")
 text = "YOU LOSE
 "
 
+[node name="LevelUp" type="Button" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -75.0
+offset_right = 100.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_kp5xy")
+text = "LEVEL UP"
+
 [node name="BackInfo" type="Button" parent="XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer"]
 unique_name_in_owner = true
 visible = false
@@ -727,6 +784,126 @@ offset_bottom = -16.0
 grow_vertical = 0
 theme = SubResource("Theme_iml5p")
 text = "Delete"
+
+[node name="Character" type="Area3D" parent="XROrigin3D/XRCamera3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.224717, -2.64944)
+visible = false
+script = ExtResource("4_n3flm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/XRCamera3D/Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+shape = SubResource("BoxShape3D_muhg4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/Character"]
+material_override = SubResource("StandardMaterial3D_yr8nn")
+mesh = SubResource("PlaneMesh_rdnbf")
+
+[node name="SubViewport" type="SubViewport" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D"]
+transparent_bg = true
+size = Vector2i(512, 256)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport"]
+
+[node name="ColorRect" type="ColorRect" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_right = 512.0
+offset_bottom = 256.0
+color = Color(0.180392, 0.572549, 0.572549, 0.501961)
+
+[node name="LV" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 30.0
+offset_top = 20.0
+offset_right = 80.0
+offset_bottom = 70.0
+theme = SubResource("Theme_72vx5")
+text = "LV"
+
+[node name="LVNum" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 230.0
+offset_top = 20.0
+offset_right = 280.0
+offset_bottom = 70.0
+theme = SubResource("Theme_0r1ew")
+text = "1"
+
+[node name="HP" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 30.0
+offset_top = 75.0
+offset_right = 80.0
+offset_bottom = 125.0
+theme = SubResource("Theme_72vx5")
+text = "HP"
+
+[node name="HPLeft" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 150.0
+offset_top = 75.0
+offset_right = 200.0
+offset_bottom = 125.0
+text = "0
+"
+
+[node name="HPSlash" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 230.0
+offset_top = 75.0
+offset_right = 280.0
+offset_bottom = 125.0
+theme = SubResource("Theme_0r1ew")
+text = "/"
+
+[node name="HPRight" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 310.0
+offset_top = 75.0
+offset_right = 360.0
+offset_bottom = 125.0
+theme = SubResource("Theme_q4gpe")
+text = "0"
+
+[node name="EXP" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 30.0
+offset_top = 130.0
+offset_right = 80.0
+offset_bottom = 180.0
+theme = SubResource("Theme_w0gld")
+text = "EXP"
+
+[node name="EXPLeft" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 150.0
+offset_top = 130.0
+offset_right = 200.0
+offset_bottom = 180.0
+theme = SubResource("Theme_wta6p")
+text = "0"
+
+[node name="EXPSlash" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 230.0
+offset_top = 130.0
+offset_right = 280.0
+offset_bottom = 180.0
+theme = SubResource("Theme_rkfx0")
+text = "/"
+
+[node name="EXPRight" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 310.0
+offset_top = 130.0
+offset_right = 360.0
+offset_bottom = 180.0
+theme = SubResource("Theme_63smn")
+text = "100"
+
+[node name="Attack" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 30.0
+offset_top = 185.0
+offset_right = 113.0
+offset_bottom = 235.0
+theme = SubResource("Theme_w0gld")
+text = "ATTACK"
+
+[node name="AttackPower" type="Button" parent="XROrigin3D/XRCamera3D/Character/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 230.0
+offset_top = 185.0
+offset_right = 280.0
+offset_bottom = 235.0
+theme = SubResource("Theme_w0gld")
+text = "5"
 
 [node name="LeftController" type="XRController3D" parent="XROrigin3D"]
 unique_name_in_owner = true
@@ -1137,6 +1314,21 @@ stream = ExtResource("12_vpclk")
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.18707, 1.67559, -3.5056)
 stream = ExtResource("14_ovy7o")
+
+[node name="LevelUpSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.18707, 1.67559, -3.5056)
+stream = ExtResource("16_ufkbl")
+
+[node name="DeathSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.18707, 1.67559, -3.5056)
+stream = ExtResource("17_rxudq")
+
+[node name="AreaClearSound" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.18707, 1.67559, -3.5056)
+stream = ExtResource("18_ky6xg")
 
 [node name="Tables" parent="." instance=ExtResource("10_hg6wr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.45688, 0, -3.83128)

@@ -5,7 +5,7 @@ var player_body
 var demon_health_bar_scene
 var demon_health_bar_mesh
 var is_demon_activated = false
-# var to_activate_monster
+var character_board_scene
 
 var speed = 2.0
 var moving_direction = -1
@@ -17,7 +17,7 @@ func _ready():
 	player_camera = get_node("/root/Main/XROrigin3D/XRCamera3D")
 	player_body = get_node("/root/Main/XROrigin3D")
 	demon_health_bar_scene = get_node("/root/Main/OuterLand1/Demon/MeshInstance3D/HealthBar/SubViewport/Control/DemonHealthBar")
-	# to_activate_monster = get_node("/root/Main/OuterLand1/Demon")
+	character_board_scene = get_node("/root/Main/XROrigin3D/XRCamera3D/Character")
 	randomize()
 
 
@@ -51,6 +51,7 @@ func _demon_recreate():
 
 # Delete the current demon and hide it's all information
 func _demon_delete():
+	character_board_scene.local_exp += 10
 	is_demon_activated = false
 	self.visible = false
 	self.global_transform.origin += Vector3(0,-10,0)
