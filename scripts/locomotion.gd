@@ -345,7 +345,7 @@ func _on_area_3d_body_entered(body:Node3D):
 					health = 100
 
 		# Re-create monsters when player leaves that land
-		giants._goblin_recreate()
+		giants._giants_recreate()
 
 	# When the user's body collides with the monster, decrease user's HP continously until the user defeats the mosnter
 	elif body.name == "Demon":

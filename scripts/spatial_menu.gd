@@ -14,6 +14,7 @@ var weaponTitle
 var weapon1
 var weapon2
 var weapon3
+var is_laser_activated = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,15 +42,18 @@ func _process(_delta):
 	pass
 
 func _on_weapon_button_1_pressed():
-	print("Sword Selected")
+	# print("Sword Selected")
 	sword.visible = true
 
 func _on_weapon_button_2_pressed():
-	print("Gun Selected")
+	# print("Laser Beam Selected")
+	is_laser_activated = true
+	weapon2.text = "Laser Equipped"
 
 
 func _on_weapon_button_3_pressed():
-	print("Bow Selected")
+	# print("Bow Selected")
+	pass
 
 # When the user click Back button, it will go back to the previous page.
 func _on_back_pressed():
