@@ -57,11 +57,10 @@ var goblin_health_bar_scene
 var giants_health_bar_scene
 
 var is_monster_activated = false
-var monster_code = 0	# demon: 1, goblin: 2
+var monster_code = 0	# demon: 1, goblin: 2, giants: 3
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# fountain = get_node("/root/Main/Fountain")
 	portal1_1 = get_node("/root/Main/OuterLand1/Portal1_1")
 	portal2_1 = get_node("/root/Main/OuterLand2/Portal2_1")
 	portal3_1 = get_node("/root/Main/OuterLand3/Portal3_1")
@@ -101,7 +100,6 @@ func _ready():
 	giants = get_node("/root/Main/OuterLand3/Giants")
 	giants_health_bar_scene = get_node("/root/Main/OuterLand3/Giants/GiantsHealthBar/SubViewportContainer/SubViewport/Control/GiantsHealthBar")
 
-
 	death_board = get_node("/root/Main/XROrigin3D/XRCamera3D/Death")
 	death_board_lose = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/Lose")
 	death_board_back_info = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/BackInfo")
@@ -109,53 +107,12 @@ func _ready():
 	done = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Done")
 
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	# pass
-	# Forward translation
-	# if self.input_vector.y > self.move_dead_zone || self.input_vector.y < -self.move_dead_zone:
-	# 	var movement_vector = Vector3(0, 0, -self.input_vector.y * self.move_speed * delta)
-	# 	self.position += movement_vector.rotated(Vector3.UP, $XRCamera3D.global_rotation.y)
-
-	# if snap_rotation_ready and (self.input_vector.x > snap_turn_threshold or self.input_vector.x < -snap_turn_threshold):
-	# 	self.rotate(Vector3.UP, deg_to_rad(snap_turn_speed) * sign(self.input_vector.x) * -1)
-	# 	snap_rotation_ready = false
-
-	# # The thumbstick should go back to the center before it can snap turn again
-	# elif abs(self.input_vector.x) < snap_turn_threshold:
-	# 	snap_rotation_ready = true
-	
-	# if self.input_vector.x > self.smooth_turn_dead_zone || self.input_vector.x < -self.smooth_turn_dead_zone:
-	# 	self.translate($XRCamera3D.position)
-	# 	self.rotate_y(deg_to_rad(-self.input_vector.x * self.smooth_turn_speed * delta))
-	# 	self.translate(-$XRCamera3D.position)
-	# print(self.global_position)
-
-	# if the monster collides with the player, player's HP will be dereasing every second until they player defeats the monster
-	# if player_monster_collision:
-	# 	# If the monster is demon
-	# 	if monster_code == 1:
-	# 		if demon.visible:
-	# 			await get_tree().create_timer(1).timeout
-	# 			health -= 0.01
-
-	# 	# If the monster is goblin
-	# 	elif monster_code == 2:
-	# 		if goblin.visible:
-	# 			await get_tree().create_timer(1).timeout
-	# 			damage_increment += 0.1
-	# 			health -= 0.01 * damage_increment
-
 	# keep updating player's HP
 	player_health_bar.value = health
 
-	# if player's HP becomes 0, then player dies
-	# if health <= 0:
-	# 	health = 0
-	# 	_player_death_and_resurrection()
-
-
+# When the user is dead, delete the current monster.
 func _delete_monster_when_player_dead():
 	if monster_code == 1:
 		demon._demon_delete()
@@ -166,32 +123,26 @@ func _delete_monster_when_player_dead():
 
 
 func _player_death_and_resurrection():
-	# Delete the monster and show the resurrection information
 
+	# Delete the monster and show the resurrection information
 	_delete_monster_when_player_dead()
 	done.text = "0"
 	player_health_bar_mesh.visible = false
 	death_board.visible = true
 	death_board_lose.visible = true
-	# _countdown(2)
 	await get_tree().create_timer(2).timeout
 	death_board_lose.visible = false
 	death_board_back_info.visible = true
-	# _countdown(1)
 	await get_tree().create_timer(1).timeout
 	death_board_back_info.text = "You will be sent back to the main base in 2 seconds."
-	# _countdown(1)
 	await get_tree().create_timer(1).timeout
 	death_board_back_info.text = "You will be sent back to the main base in 1 seconds."
-	# _countdown(1)
 	await get_tree().create_timer(1).timeout
 	death_board_back_info.text = "You will be sent back to the main base in 0 seconds."
-	# _countdown(1)
 	await get_tree().create_timer(1).timeout
 	
 	# Resurrection
 	monster_code = 0
-	# player_monster_collision = false
 	self.global_position = Vector3(0,0,0)
 	outer_land_1.visible = false
 	outer_land_2.visible = false
@@ -199,20 +150,15 @@ func _player_death_and_resurrection():
 	player_health_bar_mesh.visible = true
 	health = 5
 	
-	
-
-	# Reset death board info
-	# death_board.visible = false
-	# death_board_lose.visible = false
+	# Reset the death prompt board
 	death_board_back_info.text = "You will be sent back to the main base in 3 seconds."
 	death_board_back_info.visible = false
 
 	# Restore_health
 	while health < 100:
-		# _countdown(0.1)
 		await get_tree().create_timer(0.1).timeout
 		health += 3
-		# print("current health: ", health)
+
 		if health >= 100:
 			health = 100
 
@@ -234,6 +180,7 @@ func _process_input(input_name: String, input_value: Vector2):
 # Generate a random number
 func get_random_number(a: int, b: int):
 	return randi_range(a, b)
+
 
 func _on_area_3d_body_entered(body:Node3D):
 	# print("Collision with ", body.name)
@@ -259,6 +206,7 @@ func _on_area_3d_body_entered(body:Node3D):
 		cd.text = "3"
 		go_back_1.collision_layer = 0b00000001
 
+	# set up a count down when teleport to the battle filed
 	elif body.name == "Portal2":
 		count_down_menu_2.visible = true
 
@@ -279,6 +227,7 @@ func _on_area_3d_body_entered(body:Node3D):
 		cd_2.text = "3"
 		go_back_2.collision_layer = 0b00000001
 
+	# set up a count down when teleport to the battle filed
 	elif body.name == "Portal3":
 		count_down_menu_3.visible = true
 
@@ -330,9 +279,10 @@ func _on_area_3d_body_entered(body:Node3D):
 		# Re-create monsters when player leaves that land
 		demon._demon_recreate()
 
+		# When the outerland 1 is clear, unlock the outerland 2
 		portal2.visible = true
 
-
+	# set up a count down when teleport back to the main base
 	elif body.name == "GoBack_2":
 		if go_back_2.visible:
 			count_down_menu_back_2.visible = true
@@ -360,11 +310,13 @@ func _on_area_3d_body_entered(body:Node3D):
 				if health >= 100:
 					health = 100
 
-		# # Re-create monsters when player leaves that land
+		# Re-create monsters when player leaves that land
 		goblin._goblin_recreate()
 
+		# When the outerland 2 is clear, unlock the outerland 3
 		portal3.visible = true
 
+	# set up a count down when teleport back to the main base
 	elif body.name == "GoBack_3":
 		if go_back_3.visible:
 			count_down_menu_back_3.visible = true
@@ -392,44 +344,52 @@ func _on_area_3d_body_entered(body:Node3D):
 				if health >= 100:
 					health = 100
 
-		# # Re-create monsters when player leaves that land
-		# giants._goblin_recreate()
+		# Re-create monsters when player leaves that land
+		giants._goblin_recreate()
 
+	# When the user's body collides with the monster, decrease user's HP continously until the user defeats the mosnter
 	elif body.name == "Demon":
 		player_monster_collision = true
 		monster_code = 1
+
 		while player_monster_collision:
-			# print("times")
-			await get_tree().create_timer(0.1).timeout
+			await get_tree().create_timer(1).timeout
 			health -= 1
 
+			# If user's HP is <= 0, the user will die and rebirth
 			if health <= 0:
 				health = 0
 				player_monster_collision = false
 				_player_death_and_resurrection()
 
+	# When the user's body collides with the monster, decrease user's HP continously until the user defeats the mosnter
 	elif body.name == "Goblin":
 		player_monster_collision = true
 		monster_code = 2
+
 		while player_monster_collision:
 			await get_tree().create_timer(0.1).timeout
 			damage_increment += 1
 			health -= 0.01 * damage_increment
 
+			# If user's HP is <= 0, the user will die and rebirth
 			if health <= 0:
 				health = 0
 				damage_increment = 0
 				player_monster_collision = false
 				_player_death_and_resurrection()
 
+	# When the user's body collides with the monster, decrease user's HP continously until the user defeats the mosnter			
 	elif body.name == "Giants":
 		player_monster_collision = true
 		monster_code = 3
+
 		while player_monster_collision:
 			await get_tree().create_timer(1).timeout
 			var rand = get_random_number(1, 30)
 			health -= rand
-			
+
+			# If user's HP is <= 0, the user will die and rebirth
 			if health <= 0:
 				health = 0
 				damage_increment = 0

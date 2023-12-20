@@ -15,14 +15,19 @@ var goal
 var submit
 var mission_clear
 var continue_button
+var delete_button
 var portal_activated
 
 var go_back_1
 var go_back_2
 var go_back_3
 
-var difficulty_mode = 0
+var demon_health_bar_scene
+var goblin_health_bar_scene
+var giants_health_bar_scene
 
+var difficulty_mode = 0
+var rand_num = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,11 +46,19 @@ func _ready():
 	submit = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Submit")
 	mission_clear = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/MissionClear")
 	continue_button = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Continue")
+	delete_button = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Delete")
 	portal_activated = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/PortalActivated")
 
 	go_back_1 = get_node("/root/Main/OuterLand1/GoBack_1")
 	go_back_2 = get_node("/root/Main/OuterLand2/GoBack_2")
 	go_back_3 = get_node("/root/Main/OuterLand3/GoBack_3")
+
+	demon_health_bar_scene = get_node("/root/Main/OuterLand1/Demon/MeshInstance3D/HealthBar/SubViewport/Control/DemonHealthBar")
+	goblin_health_bar_scene = get_node("/root/Main/OuterLand2/Goblin/GoblinHealth/SubViewportContainer/SubViewport/Control/GoblinHealthBar")
+	giants_health_bar_scene = get_node("/root/Main/OuterLand3/Giants/GiantsHealthBar/SubViewportContainer/SubViewport/Control/GiantsHealthBar")
+
+	randomize()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -55,43 +68,71 @@ func _process(delta):
 		self.visible = false
 
 
+# Generate a random number
+func get_random_number(a: int, b: int):
+	return randi_range(a, b)
+
+# When the user selects the esay mode mission, randomly generate the mission and update the mission board.
 func _on_easy_pressed():
-	# print("easy")
+	# Select easy mode
 	difficulty_mode = 1
 	easy_mode.visible = false
 	medium_mode.visible = false
 	hard_mode.visible = false
+
+	# Randomly generate mission
+	rand_num = get_random_number(1,20)
+	mission_description_easy.text = "Defeat " + str(rand_num) + " Demons"
+	goal.text = str(rand_num)
+
+	# Update the mission board
 	mission_description_easy.visible = true
 	done.visible = true
 	slash.visible = true
 	goal.visible = true
+	delete_button.visible = true
 
-
+# When the user selects the medium mode mission, randomly generate the mission and update the mission board.
 func _on_medium_pressed():
-	# print("medium")
+	# Select easy mode
 	difficulty_mode = 2
 	easy_mode.visible = false
 	medium_mode.visible = false
 	hard_mode.visible = false
+
+	# Randomly generate mission
+	rand_num = get_random_number(1,15)
+	mission_description_medium.text = "Defeat " + str(rand_num) + " Goblins"
+	goal.text = str(rand_num)
+
+	# Update the mission board
 	mission_description_medium.visible = true
 	done.visible = true
 	slash.visible = true
 	goal.visible = true
+	delete_button.visible = true
 
-
-
+# When the user selects the hard mode mission, randomly generate the mission and update the mission board.
 func _on_hard_pressed():
-	# print("hard")
+	# Select easy mode
 	difficulty_mode = 3
 	easy_mode.visible = false
 	medium_mode.visible = false
 	hard_mode.visible = false
+
+	# Randomly generate mission
+	rand_num = get_random_number(1,10)
+	mission_description_hard.text = "Defeat " + str(rand_num) + " Giants"
+	goal.text = str(rand_num)
+
+	# Update the mission board
 	mission_description_hard.visible = true
 	done.visible = true
 	slash.visible = true
 	goal.visible = true
+	delete_button.visible = true
 
-
+# When the user submit the completed mission, update the mission board and prompt the user that mission is clear
 func _on_submit_pressed():
 	mission_title.visible = false
 
@@ -105,6 +146,7 @@ func _on_submit_pressed():
 	done.visible = false
 	slash.visible = false
 	goal.visible = false
+	delete_button.visible = false
 	submit.visible = false
 	mission_clear.visible = true
 
@@ -114,6 +156,7 @@ func _on_submit_pressed():
 
 	continue_button.visible = true
 
+# When the user click the continue button, it allows the user to active go-back portal
 func _on_continue_pressed():
 	portal_activated.visible = false
 	submit.visible = false
@@ -131,3 +174,32 @@ func _on_continue_pressed():
 	medium_mode.visible = true
 	hard_mode.visible = true
 	done.text = "0"
+
+# When the user delete the current mission, it allows the user to select the difficulty of the mission again. When the mission is deleted, progress will be lost.
+func _on_delete_pressed():
+	mission_description_easy.visible = false
+	mission_description_medium.visible = false
+	mission_description_hard.visible = false
+	done.visible = false
+	slash.visible = false
+	goal.visible = false
+	delete_button.visible = false
+	
+	continue_button.visible = false
+	easy_mode.visible = true
+	medium_mode.visible = true
+	hard_mode.visible = true
+
+	# Clear the progress
+	if difficulty_mode == 1:
+		demon_health_bar_scene.progress = 0
+		demon_health_bar_scene._update_mission_progress_on_board(0)
+		difficulty_mode = 0
+	elif difficulty_mode == 2:
+		goblin_health_bar_scene.progress = 0
+		goblin_health_bar_scene._update_mission_progress_on_board(0)
+		difficulty_mode = 0
+	elif difficulty_mode == 3:
+		giants_health_bar_scene.progress = 0
+		giants_health_bar_scene._update_mission_progress_on_board(0)
+		difficulty_mode = 0

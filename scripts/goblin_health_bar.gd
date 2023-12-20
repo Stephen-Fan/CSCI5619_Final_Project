@@ -12,6 +12,9 @@ var goblin_health_bar_mesh
 var area_clear
 var done
 var submit
+var mission_board
+var mission_board_delete
+var mode
 
 
 # Called when the node enters the scene tree for the first time.
@@ -23,31 +26,32 @@ func _ready():
 	area_clear = get_node("/root/Main/XROrigin3D/XRCamera3D/Death/MeshInstance3D/SubViewport/CanvasLayer/AreaClear")
 	done = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Done")
 	submit = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Submit")
+	mission_board = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard")
+	mission_board_delete = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard/BoardMesh/SubViewport/CanvasLayer/Delete")
+	mode = get_node("/root/Main/XROrigin3D/XRCamera3D/MissionBoard")
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	self.value = health
 
+# Reset the progress
 func _reset_progress():
 	progress = 0
 
+# When the user completes the mission, this area is clear
 func _area_clear_prompt():
-	
 	area_clear.visible = true
 	await get_tree().create_timer(3).timeout
 	area_clear.visible = false
 
-func _update_mission_progress_on_board():
-	if progress == 1:
-		done.text = "1"
-	elif progress == 2:
-		done.text = "2"
-	elif progress == 3:
-		done.text = "3"
-	elif progress == 4:
-		done.text = "4"
-	elif progress == 5:
-		done.text = "5"
+# When the user defeats a monster or dies, update the progress on the board
+func _update_mission_progress_on_board(num):
+	# update the mission board
+	done.text = str(progress)
+
+	# if the user completes the mission, the submit button will appear
+	if progress == num and num != 0:
 		submit.visible = true
 
 func _on_area_3d_body_entered(body:Node3D):
@@ -58,12 +62,21 @@ func _on_area_3d_body_entered(body:Node3D):
 			player_body.player_monster_collision = false
 			player_body.damage_increment = 1.0
 			goblin._goblin_delete()
-			progress += 1
-			_update_mission_progress_on_board()
+
+			# If the user selects the mission, start to record the progress
+			if mode.difficulty_mode == 2:
+				progress += 1
+				_update_mission_progress_on_board(mission_board.rand_num)
 			
-			if progress == 5:
-				_area_clear_prompt()
-				_reset_progress()
+				# If the user completes the mission, stop generating monsters and clear the area. Otherwise, keep generating monsters
+				if progress == mission_board.rand_num:
+					mission_board_delete.visible = false
+					_area_clear_prompt()
+					_reset_progress()
+				else:
+					goblin._goblin_recreate()
+
+			# Otherwise, keep generating monsters
 			else:
 				goblin._goblin_recreate()
 			
@@ -73,8 +86,9 @@ func _on_area_3d_body_entered(body:Node3D):
 		# Initailly, the health bar is invisible. It will be invoked after the player hits the enemy at the first time.
 		if goblin_health_bar_mesh.visible == false:
 			goblin_health_bar_mesh.visible = true
-			# demon_model_1.to_activate_monster.is_monster_activated = true
 			goblin.is_goblin_activated = true
+
+		# Derease monster's health when the user hits the monster
 		else:
 			health -= 10
 			if health <= 0:

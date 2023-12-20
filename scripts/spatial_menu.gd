@@ -51,7 +51,7 @@ func _on_weapon_button_2_pressed():
 func _on_weapon_button_3_pressed():
 	print("Bow Selected")
 
-
+# When the user click Back button, it will go back to the previous page.
 func _on_back_pressed():
 	nextPage.visible = true
 	introTitle.visible = true
@@ -63,8 +63,8 @@ func _on_back_pressed():
 	weapon2.visible = false
 	weapon3.visible = false
 
+# When the user click Next button, it allows the user to select a weapon.
 func _on_next_pressed():
-	# print("Next pressed")
 	introTitle.visible = false
 	yes.visible = false
 	no.visible = false
@@ -76,9 +76,10 @@ func _on_next_pressed():
 	weapon2.visible = true
 	weapon3.visible = true
 
+# When clicking YES button, Next button will show up.
 func _on_yes_pressed():
 	nextPage.visible = true
 
-
+# When clicking NO button, no meaning. It is a trick.
 func _on_no_pressed():
 	nono.visible = true

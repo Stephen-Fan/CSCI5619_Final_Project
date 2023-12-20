@@ -9,7 +9,6 @@ var is_demon_activated = false
 
 var speed = 2.0
 var moving_direction = -1
-# var locations = [Vector3(-1,0,20), Vector3(12,0,25), Vector3(12,0,-12), Vector3(-16,0,0), Vector3(-16,0,40)]
 
 
 # Called when the node enters the scene tree for the first time.
@@ -30,12 +29,12 @@ func get_random_number(a: int, b: int):
 # Recreate the demons
 func _demon_recreate():
 
+	# Generate a monster with randomized location
 	self.visible = true
 	demon_health_bar_mesh.visible = false
 
 	var rand_num_x = get_random_number(-40, 40)
 	var rand_num_z = get_random_number(30, -40)
-	# print(rand_num_x, ",0,", rand_num_z)
 	self.transform.origin = Vector3(rand_num_x, 0, rand_num_z)
 		
 	# Hide the go back portal
@@ -52,7 +51,6 @@ func _demon_recreate():
 
 # Delete the current demon and hide it's all information
 func _demon_delete():
-	# to_activate_monster.is_monster_activated = false
 	is_demon_activated = false
 	self.visible = false
 	self.global_transform.origin += Vector3(0,-10,0)
